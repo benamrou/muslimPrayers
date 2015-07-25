@@ -1,0 +1,21 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- These settings headers are only used on tablets. -->
+
+    <header android:fragment="com.bbsymphony.ipray.SettingsActivity$GeneralPreferenceFragment"
+        android:title="@string/pref_header_general"
+        android:summary="General settings"/>
+
+    <header android:fragment="com.bbsymphony.ipray.SettingsActivity$PrayerTimesPreferenceFragment"
+        android:title="@string/pref_header_prayers_time"/>
+
+    <header android:fragment="com.bbsymphony.ipray.SettingsActivity$PrayerTimesAdjustmentPreferenceFragment"
+        android:title="@string/pref_header_prayers_time_adjustment"/>
+    <header
+        android:fragment="com.bbsymphony.ipray.SettingsActivity$NotificationPreferenceFragment"
+        android:title="@string/pref_header_notifications" />
+
+    <!-- header android:fragment="com.bbsymphony.ipray.SettingsActivity$DataSyncPreferenceFragment"
+        android:title="@string/pref_header_data_sync" / -->
+
+</preference-headers>

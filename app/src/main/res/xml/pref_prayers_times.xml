@@ -1,0 +1,42 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- EditTextPreference
+        android:key="location_id"
+        android:title="@string/pref_header_location_title"
+        android:textSize="20px"
+        android:editable="true"
+        android:selectable="true"/ -->
+
+    <!--EditTextPreference
+        android:key="location_id"
+        android:title="@string/pref_header_location_title"
+        android:textSize="20px"
+        android:editable="true"
+        android:selectable="true"/ -->
+    <ListPreference
+        android:key="convention_id"
+        android:title="@string/pref_header_prayers_time_convention"
+        android:defaultValue="7"
+        android:entries="@array/pref_list_convention_title"
+        android:entryValues="@array/pref_list_convention_value"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <ListPreference
+        android:key="juristic_id"
+        android:title="@string/pref_header_prayers_time_juristic"
+        android:defaultValue="0"
+        android:entries="@array/pref_list_asr_juristic"
+        android:entryValues="@array/pref_list_asr_juristic_value"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <ListPreference
+        android:key="higher_lattitude_id"
+        android:title="@string/pref_header_prayers_time_higher_lattitude"
+        android:defaultValue="3"
+        android:entries="@array/pref_list_higher_lattitude"
+        android:entryValues="@array/pref_list_higher_lattitude_value"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+</PreferenceScreen>
