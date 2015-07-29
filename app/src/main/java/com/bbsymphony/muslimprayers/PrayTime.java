@@ -751,6 +751,10 @@ public class PrayTime {
         return timeSalat.get(6);
     }
 
+    public ArrayList<String> getTimeSalat() {
+        return timeSalat;
+    }
+
     public int getCalcMethod() {
         return calcMethod;
     }

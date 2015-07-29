@@ -22,6 +22,7 @@ public class MuslimPrayers extends AppWidgetProvider {
     public static final String SETTING_CLICK = "setting_button_click";
     public static final String PREFERENCE_UPDATE = "preference_update";
     public static final String SALAT_TIME = "salat_time";
+    public static final String ABULITION_TIME = "abulition_time";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
