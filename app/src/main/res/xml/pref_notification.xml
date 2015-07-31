@@ -39,10 +39,17 @@
         android:inputType="number" />
 
 
-    <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
+    <!-- NOTE: This preference will be enabled and clickable only. -->
     <Preference
         android:key="notifications_test_id"
         android:title="@string/pref_title_test"
+        android:selectable="true"
+        android:clickable="true"/>
+
+    <!-- NOTE: This preference will be enabled and clickable only. -->
+    <Preference
+        android:key="notifications_test_wudu_id"
+        android:title="@string/pref_title_test_wudu"
         android:selectable="true"
         android:clickable="true"/>
 

@@ -74,10 +74,12 @@ public class SettingsActivity
         super.onPostCreate(savedInstanceState);
         Log.d(LOG,"[SETTING] ON CREATE - Preference name:" + this.getPreferenceManager().getSharedPreferencesName());
         setupSimplePreferencesScreen();
-        Preference button = (Preference) getPreferenceManager().findPreference("notifications_test_id");
-        if (button != null) {
+
+        // Preference Test Adhan button management
+        Preference buttonAdhan = (Preference) getPreferenceManager().findPreference("notifications_test_id");
+        if (buttonAdhan != null) {
             Log.d(LOG,"[ONCREATE] STEP 1 - Button setUp");
-            button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            buttonAdhan.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 private String LOG = "OnPreferenceClickListener";
 
                 @Override
@@ -91,17 +93,44 @@ public class SettingsActivity
             });
         }
 
+        // Preference Test Wudu button management
+        Preference buttonTestWudu = (Preference) getPreferenceManager().findPreference("notifications_test_wudu_id");
+        if (buttonTestWudu != null) {
+            Log.d(LOG,"[ONCREATE] STEP 1 - Button setUp");
+            buttonTestWudu.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                private String LOG = "OnPreferenceClickListenerWudu";
+
+                @Override
+                public boolean onPreferenceClick(Preference prefs) {
+                    //finish();
+                    Log.d(LOG, "Click on Test Wudu");
+                    MediaPlayer mp = MediaPlayer.create(prefs.getContext(), R.raw.wudu_djouher072015);
+                    mp.start();
+                    return true;
+                }
+            });
+        }
+
+
+        // Preference Recommendation button management
         Preference recommendationBtn = (Preference) getPreferenceManager().findPreference("recommendation_id");
         if (recommendationBtn != null) {
+
             Log.d(LOG, "[ONCREATE] STEP 1 - recommendationBtn setUp");
-            button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            recommendationBtn.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 private String LOG = "OnPreferenceClickListener";
 
                 @Override
                 public boolean onPreferenceClick(Preference prefs) {
                     //finish();
-                    Log.d(LOG, "Click on recommendationBtn");
-
+                    /*
+                    Log.d(LOG, "Click on Recommendation Btn...");
+                    try {
+                        ListPreference lp = (ListPreference)findPreference("recommendation_id");
+                        Log.d(LOG, "Setting value...");
+                        lp.setValue("3"); // Cancel
+                        Log.d(LOG, "Value setted to 3");
+                    } catch (Exception e) { Log.d(LOG,"Exception: " + e.toString()); } */
                     return true;
                 }
             });
@@ -513,7 +542,7 @@ public class SettingsActivity
                 // Implementation
                 Log.d(LOG, "[ON RESUME] key:" + key);
 
-                if (key.equals("recommendaton_id")) {
+                if (key.equals("recommendation_id")) {
                     if (prefs.getString(key,null).equals(SHARED_RECOMMENDATION)) {
                         subject = "[MuslimPrayers] Sharing ideas...";
                         body = "Here some suggestions \n\n\n\nRegards,\nAdvicer";
@@ -532,11 +561,14 @@ public class SettingsActivity
                         Intent emailIntent = new Intent(Intent.ACTION_SEND);
                         //i.setType("text/plain"); //use this line for testing in the emulator
                         emailIntent.setType("message/rfc822"); // use from live device
-                        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {this.to});
+                        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{this.to});
                         emailIntent.putExtra(Intent.EXTRA_SUBJECT, this.subject);
                         emailIntent.putExtra(Intent.EXTRA_TEXT, this.body);
                         startActivity(Intent.createChooser(emailIntent, "Select email application."));
 
+                        ListPreference lp = (ListPreference)findPreference("recommendation_id");
+                        Log.d(LOG, "Setting value...");
+                        lp.setValue(CANCEL_RECOMMENDATION); // Cancel
                     }
                 }
 

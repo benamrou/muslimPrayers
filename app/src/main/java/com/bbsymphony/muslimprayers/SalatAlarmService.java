@@ -48,11 +48,11 @@ public class SalatAlarmService extends IntentService {
                 Context.MODE_PRIVATE);
 
         if (isTimeWudu(intent) && !prefs.getString("notifications_abulition_id","999").equals("0")) {
-            playSound(this.getApplicationContext());
+            playWuduSound(this.getApplicationContext());
         }
 
         if (isTimeSalat(intent) && prefs.getBoolean("notifications_salat_id",true)) {
-            playSound(this.getApplicationContext());
+            playSalatSound(this.getApplicationContext());
         }
 
     }
@@ -64,10 +64,22 @@ public class SalatAlarmService extends IntentService {
         return START_NOT_STICKY;
     }
 
-    private void playSound(Context context) {
+    private void playSalatSound(Context context) {
         Log.d(LOG, "[PLAYSOUND] Playing sound...");
         try {
             mp = MediaPlayer.create(context, R.raw.adhan_makkah);
+            mp.prepare();
+            mp.start();
+            mp.release();
+        } catch (Exception e) {
+            Log.d(LOG, e.toString());
+        }
+    }
+
+    private void playWuduSound(Context context) {
+        Log.d(LOG, "[PLAYSOUND] Playing sound...");
+        try {
+            mp = MediaPlayer.create(context, R.raw.wudu_djouher072015);
             mp.prepare();
             mp.start();
             mp.release();
