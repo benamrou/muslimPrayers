@@ -24,12 +24,14 @@ public class MuslimPrayers extends AppWidgetProvider {
     public static final String SALAT_TIME = "salat_time";
     public static final String ABULITION_TIME = "abulition_time";
 
+    private MuslimPrayersBroadcastReceiver mReceiver;
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
             final int N = appWidgetIds.length;
             Log.w(LOG, "[ON UPDATE] STEP 0 - method called");
             Log.d(LOG, "[SETTING] STEP 1 - Set Security");
-            MuslimPrayersBroadcastReceiver mReceiver = new MuslimPrayersBroadcastReceiver();
+             this.mReceiver = new MuslimPrayersBroadcastReceiver();
             Intent intent = new Intent(context, MuslimPrayersBroadcastReceiver.class);
 
             IntentFilter filter = new IntentFilter();
@@ -45,7 +47,6 @@ public class MuslimPrayers extends AppWidgetProvider {
             clickBackground.setAction(SETTING_CLICK);
             clickBackground.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
             PendingIntent pendingBckIntent = PendingIntent.getBroadcast(context, 0, clickBackground, 0);
-
 
             Intent clickDate = new Intent(context, MuslimPrayersBroadcastReceiver.class);
             // Button click managenent
@@ -74,10 +75,13 @@ public class MuslimPrayers extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         // When the user deletes the widget, delete the preference associated with it.
-        final int N = appWidgetIds.length;
-        //for (int i = 0; i < N; i++) {
+        try {
+            context.getApplicationContext().unregisterReceiver(this.mReceiver);
+            final int N = appWidgetIds.length;
+            //for (int i = 0; i < N; i++) {
             //MuslimPrayersConfigureActivity.deleteTitlePref(context, appWidgetIds[i]);
-        //}
+            //}
+        } catch (Exception e) { Log.d(LOG, e.toString());}
     }
 
     @Override

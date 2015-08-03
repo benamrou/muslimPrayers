@@ -29,7 +29,8 @@ public class SalatAlarmService extends IntentService {
 
     private static String LOG = "SalatAlarmService";
     private DateFormat df = new SimpleDateFormat("HH:mm");
-    private MediaPlayer mp;
+    private static MediaPlayer mpSalat;
+    private static MediaPlayer mpWudu;
 
     public SalatAlarmService() {
         super(LOG);
@@ -44,7 +45,7 @@ public class SalatAlarmService extends IntentService {
     public void onStart(Intent intent, int startId) {
         Log.d(LOG, "[ONSTART] Service kicked off...");
         super.onStart(intent, startId);
-        SharedPreferences prefs =  this.getSharedPreferences(MuslimPrayersBroadcastReceiver.SHARED_PREF,
+        SharedPreferences prefs =  this.getSharedPreferences(ConfigurationClass.SHARED_PREF,
                 Context.MODE_PRIVATE);
 
         if (isTimeWudu(intent) && !prefs.getString("notifications_abulition_id","999").equals("0")) {
@@ -65,24 +66,39 @@ public class SalatAlarmService extends IntentService {
     }
 
     private void playSalatSound(Context context) {
-        Log.d(LOG, "[PLAYSOUND] Playing sound...");
+        Log.d(LOG, "[PLAYSOUND] Playing Salat sound...");
+        mpSalat = MediaPlayer.create(context, R.raw.adhan_makkah);
+        Log.d(LOG, "Click on Media Player Salat Test");
         try {
-            mp = MediaPlayer.create(context, R.raw.adhan_makkah);
-            mp.prepare();
-            mp.start();
-            mp.release();
+            if (mpSalat != null) {
+                Log.d(LOG, "Killing actaul media player...");
+                mpSalat.stop();
+                mpSalat.release();
+                mpSalat = null;
+            }
+            Log.d(LOG,"Playing media player wudu_djouher072015...");
+            mpSalat = MediaPlayer.create(context, R.raw.adhan_makkah);
+            mpSalat.prepare();
+            mpSalat.start();
         } catch (Exception e) {
             Log.d(LOG, e.toString());
         }
     }
 
     private void playWuduSound(Context context) {
-        Log.d(LOG, "[PLAYSOUND] Playing sound...");
+        Log.d(LOG, "[PLAYSOUND] Playing Wudu sound...");
+        mpWudu = MediaPlayer.create(context, R.raw.wudu_djouher072015);
         try {
-            mp = MediaPlayer.create(context, R.raw.wudu_djouher072015);
-            mp.prepare();
-            mp.start();
-            mp.release();
+            if (mpWudu != null) {
+                Log.d(LOG, "Killing actaul media player...");
+                mpWudu.stop();
+                mpWudu.release();
+                mpWudu = null;
+            }
+            Log.d(LOG,"Playing media player wudu_djouher072015...");
+            mpWudu = MediaPlayer.create(context, R.raw.wudu_djouher072015);
+            mpWudu.prepare();
+            mpWudu.start();
         } catch (Exception e) {
             Log.d(LOG, e.toString());
         }

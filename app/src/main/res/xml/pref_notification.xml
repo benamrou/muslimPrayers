@@ -30,7 +30,7 @@
         android:defaultValue="true" />
 
     <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
-    <EditTextPreference
+    <com.bbsymphony.muslimprayers.dialog.EditTextCustom
         android:key="notifications_abulition_id"
         android:title="@string/pref_title_abuliton"
         android:defaultValue="0"

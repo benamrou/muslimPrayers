@@ -1,24 +1,37 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- EditTextPreference
-        android:key="location_id"
-        android:title="@string/pref_header_location_title"
-        android:textSize="20px"
-        android:editable="true"
-        android:selectable="true"/ -->
+    <CheckBoxPreference
+        android:key="customAngle_id"
+        android:title="@string/pref_header_convention"
+        android:defaultValue="false" />
 
-    <!--EditTextPreference
-        android:key="location_id"
-        android:title="@string/pref_header_location_title"
-        android:textSize="20px"
-        android:editable="true"
-        android:selectable="true"/ -->
     <ListPreference
         android:key="convention_id"
         android:title="@string/pref_header_prayers_time_convention"
-        android:defaultValue="7"
+        android:defaultValue="2"
+        android:enabled="true"
         android:entries="@array/pref_list_convention_title"
         android:entryValues="@array/pref_list_convention_value"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <ListPreference
+        android:dependency="customAngle_id"
+        android:key="fajr_angle_id"
+        android:title="@string/fajr_angle_title"
+        android:defaultValue="15"
+        android:entries="@array/pref_list_fajr_spinner"
+        android:entryValues="@array/pref_list_fajr_spinner_value"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+    <ListPreference
+        android:dependency="customAngle_id"
+        android:key="isha_angle_id"
+        android:title="@string/isha_angle_title"
+        android:defaultValue="15"
+        android:entries="@array/pref_list_isha_spinner"
+        android:entryValues="@array/pref_list_isha_spinner_value"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null" />
 
@@ -39,4 +52,11 @@
         android:entryValues="@array/pref_list_higher_lattitude_value"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null" />
+
+    <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
+    <CheckBoxPreference
+        android:key="daylight_saving_id"
+        android:title="@string/pref_daylight_saving_title"
+        android:defaultValue="true" />
+
 </PreferenceScreen>

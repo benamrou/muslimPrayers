@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="@android:dimen/dialog_min_width_major"
-    android:layout_height="@android:dimen/dialog_min_width_major">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
-
-    <TextView
-        android:layout_width="wrap_content"
+    <Spinner
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Fajr Angle"
-        android:id="@+id/fajr_angled_id"
-        android:layout_marginTop="35dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-</RelativeLayout>
+        android:id="@+id/fajr_spinner"
+        android:clickable="true"
+        android:entries="@array/pref_list_fajr_spinner"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/isha_spinner"
+        android:clickable="true"
+        android:entries="@array/pref_list_isha_spinner" />
+
+</LinearLayout>

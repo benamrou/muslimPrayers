@@ -51,32 +51,6 @@ public class PrayTime {
     private double timeZone; // time-zone
     private double JDate; // Julian date
     // ------------------------------------------------------------
-    // Calculation Methods
-    public static final int METHOD_JAFARI = 0;//Jafari; // Ithna Ashari
-    public static final int METHOD_KARACHI = 1; // University of Islamic Sciences, Karachi
-    public static final int METHOD_ISNA = 2; // Islamic Society of North America (ISNA)
-    public static final int METHOD_MWL = 3; // Muslim World League (MWL)
-    public static final int METHOD_MAKKAH = 4; // Umm al-Qura, Makkah
-    public static final int METHOD_EGYPT = 5; // Egyptian General Authority of Survey
-    public static final int METHOD_TEHERAN = 6; // Institute of Geophysics, University of Tehran
-    public static final int METHOD_CUSTOM = 7; // Custom Setting
-
-
-    // Juristic Methods
-    public static final int JURISTIC_SHAFII = 0; // Shafii (standard)
-    public static final int JURISTIC_HANAFI = 1; // Hanafi
-
-    // Adjusting Methods for Higher Latitudes
-    public static final int ADJ_METHOD_NONE = 0; // No adjustment
-    public static final int ADJ_METHOD_MIDNIGHT = 1; // middle of night
-    public static final int ADJ_METHOD_ONESEVENTH = 2; // 1/7th of night
-    public static final int ADJ_METHOD_ANGLEBASED = 3; // angle/60th of night
-
-    // Time Formats
-    public static final int TIME24 = 0; // 24-hour format
-    public static final int TIME12 = 1; // 12-hour format
-    public static final int TIME12NS = 2; // 12-hour format with no suffix
-    public static final int FLOATING = 3; // floating point number
 
     // Time Names
     private ArrayList<String> timeNames;
@@ -149,35 +123,35 @@ public class PrayTime {
 
         // Jafari
         double[] Jvalues = {16,0,4,0,14};
-        methodParams.put(METHOD_JAFARI, Jvalues);
+        methodParams.put(ConfigurationClass.METHOD_JAFARI, Jvalues);
 
         // Karachi
         double[] Kvalues = {18,1,0,0,18};
-        methodParams.put(METHOD_KARACHI, Kvalues);
+        methodParams.put(ConfigurationClass.METHOD_KARACHI, Kvalues);
 
         // ISNA
         double[] Ivalues = {15,1,0,0,15};
-        methodParams.put(METHOD_ISNA, Ivalues);
+        methodParams.put(ConfigurationClass.METHOD_ISNA, Ivalues);
 
         // MWL
         double[] MWvalues = {18,1,0,0,17};
-        methodParams.put(METHOD_MWL, MWvalues);
+        methodParams.put(ConfigurationClass.METHOD_MWL, MWvalues);
 
         // Makkah
         double[] MKvalues = {18.5,1,0,1,90};
-        methodParams.put(METHOD_MAKKAH, MKvalues);
+        methodParams.put(ConfigurationClass.METHOD_MAKKAH, MKvalues);
 
         // Egypt
         double[] Evalues = {19.5,1,0,0,17.5};
-        methodParams.put(METHOD_EGYPT, Evalues);
+        methodParams.put(ConfigurationClass.METHOD_EGYPT, Evalues);
 
         // Tehran
         double[] Tvalues = {17.7,0,4.5,0,14};
-        methodParams.put(METHOD_TEHERAN, Tvalues);
+        methodParams.put(ConfigurationClass.METHOD_TEHERAN, Tvalues);
 
         // Custom
         double[] Cvalues = {12,1,0,0,12};
-        methodParams.put(METHOD_CUSTOM, Cvalues);
+        methodParams.put(ConfigurationClass.METHOD_CUSTOM, Cvalues);
 
     }
 
@@ -409,12 +383,12 @@ public class PrayTime {
         for (int i = 0; i < 5; i++) {
             if (params[i] == -1) {
                 params[i] = methodParams.get(this.getCalcMethod())[i];
-                methodParams.put(METHOD_CUSTOM, params);
+                methodParams.put(ConfigurationClass.METHOD_CUSTOM, params);
             } else {
-                methodParams.get(METHOD_CUSTOM)[i] = params[i];
+                methodParams.get(ConfigurationClass.METHOD_CUSTOM)[i] = params[i];
             }
         }
-        this.setCalcMethod(METHOD_CUSTOM);
+        this.setCalcMethod(ConfigurationClass.METHOD_CUSTOM);
     }
 
     // set the angle for calculating Fajr
@@ -585,7 +559,7 @@ public class PrayTime {
             times[6] = times[5] + methodParams.get(this.getCalcMethod())[4]/ 60;
         }
 
-        if (this.getAdjustHighLats() != ADJ_METHOD_NONE) {
+        if (this.getAdjustHighLats() != ConfigurationClass.ADJ_METHOD_NONE) {
             times = adjustHighLatTimes(times);
         }
 
@@ -597,7 +571,7 @@ public class PrayTime {
 
         ArrayList<String> result = new ArrayList<String>();
 
-        if (this.getTimeFormat() == FLOATING) {
+        if (this.getTimeFormat() == ConfigurationClass.FLOATING) {
             for (double time : times) {
                 result.add(String.valueOf(time));
             }
@@ -605,9 +579,9 @@ public class PrayTime {
         }
 
         for (int i = 0; i < 7; i++) {
-            if (this.getTimeFormat() == TIME12) {
+            if (this.getTimeFormat() == ConfigurationClass.TIME12) {
                 result.add(floatToTime12(times[i], false));
-            } else if (this.getTimeFormat() == TIME12NS) {
+            } else if (this.getTimeFormat() == ConfigurationClass.TIME12NS) {
                 result.add(floatToTime12(times[i], true));
             } else {
                 result.add(floatToTime24(times[i]));
@@ -649,11 +623,11 @@ public class PrayTime {
     private double nightPortion(double angle) {
         double calc = 0;
 
-        if (adjustHighLats == ADJ_METHOD_ANGLEBASED)
+        if (adjustHighLats == ConfigurationClass.ADJ_METHOD_ANGLEBASED)
             calc = (angle)/60.0;
-        else if (adjustHighLats == ADJ_METHOD_MIDNIGHT)
+        else if (adjustHighLats == ConfigurationClass.ADJ_METHOD_MIDNIGHT)
             calc = 0.5;
-        else if (adjustHighLats == ADJ_METHOD_ONESEVENTH)
+        else if (adjustHighLats == ConfigurationClass.ADJ_METHOD_ONESEVENTH)
             calc = 0.14286;
 
         return calc;
@@ -702,10 +676,10 @@ public class PrayTime {
         // Test Prayer times here
         PrayTime prayers = new PrayTime();
 
-        prayers.setTimeFormat(TIME12);
-        prayers.setCalcMethod(METHOD_JAFARI);
-        prayers.setAsrJuristic(JURISTIC_SHAFII);
-        prayers.setAdjustHighLats(ADJ_METHOD_ANGLEBASED);
+        prayers.setTimeFormat(ConfigurationClass.TIME12);
+        prayers.setCalcMethod(ConfigurationClass.METHOD_JAFARI);
+        prayers.setAsrJuristic(ConfigurationClass.JURISTIC_SHAFII);
+        prayers.setAdjustHighLats(ConfigurationClass.ADJ_METHOD_ANGLEBASED);
         int[] offsets = {0, 0, 0, 0, 0, 0, 0}; // {Fajr,Sunrise,Dhuhr,Asr,Sunset,Maghrib,Isha}
         prayers.tune(offsets);
 

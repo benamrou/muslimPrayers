@@ -1,33 +1,33 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <EditTextPreference
+    <com.bbsymphony.muslimprayers.dialog.EditTextCustom
         android:key="fajr_adj_id"
         android:title="@string/pref_fajr_adjustment"
         android:editable="true"
         android:defaultValue="0"
         android:selectable="true"
         android:inputType="numberSigned"/>
-    <EditTextPreference
+    <com.bbsymphony.muslimprayers.dialog.EditTextCustom
         android:key="duhr_adj_id"
         android:title="@string/pref_duhr_adjustment"
         android:editable="true"
         android:defaultValue="0"
         android:selectable="true"
         android:inputType="numberSigned"/>
-    <EditTextPreference
+    <com.bbsymphony.muslimprayers.dialog.EditTextCustom
         android:key="asr_adj_id"
         android:title="@string/pref_asr_adjustment"
         android:defaultValue="0"
         android:editable="true"
         android:selectable="true"
         android:inputType="numberSigned"/>
-    <EditTextPreference
+    <com.bbsymphony.muslimprayers.dialog.EditTextCustom
         android:key="maghreb_adj_id"
         android:title="@string/pref_maghreb_adjustment"
         android:defaultValue="0"
         android:editable="true"
         android:selectable="true"
         android:inputType="numberSigned" />
-    <EditTextPreference
+    <com.bbsymphony.muslimprayers.dialog.EditTextCustom
         android:key="ishaa_adj_id"
         android:title="@string/pref_ishaa_adjustment"
         android:defaultValue="0"

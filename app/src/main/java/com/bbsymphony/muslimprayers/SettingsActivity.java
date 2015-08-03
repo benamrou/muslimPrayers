@@ -8,15 +8,10 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.MailTo;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -26,9 +21,9 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
 import android.util.Log;
+
+
 import java.util.List;
 
 /**
@@ -53,11 +48,6 @@ public class SettingsActivity
      */
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
     public static String LOG = "SettingsActivity";
-    public static String SHARED_RECOMMENDATION ="0";
-    public static String HELP_RECOMMENDATION ="1";
-    public static String BUG_RECOMMENDATION ="2";
-    public static String CANCEL_RECOMMENDATION ="3";
-
 
     // Preference change
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
@@ -67,12 +57,14 @@ public class SettingsActivity
     private String provider;
     private Location address;
 
+
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
 
         Log.d(LOG, "[SETTING] Activity");
         super.onPostCreate(savedInstanceState);
-        Log.d(LOG,"[SETTING] ON CREATE - Preference name:" + this.getPreferenceManager().getSharedPreferencesName());
+        Log.d(LOG, "[SETTING] ON CREATE - Preference name:" + this.getPreferenceManager().getSharedPreferencesName());
         setupSimplePreferencesScreen();
 
         // Preference Test Adhan button management
@@ -81,13 +73,26 @@ public class SettingsActivity
             Log.d(LOG,"[ONCREATE] STEP 1 - Button setUp");
             buttonAdhan.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 private String LOG = "OnPreferenceClickListener";
-
+                private MediaPlayer mp;
                 @Override
                 public boolean onPreferenceClick(Preference prefs) {
                     //finish();
-                    Log.d(LOG, "Click on Test");
-                    MediaPlayer mp = MediaPlayer.create(prefs.getContext(), R.raw.adhan_makkah);
-                    mp.start();
+                    Log.d(LOG, "Click on Media Player Salat Test");
+                    try {
+                        if (mp != null) {
+                            Log.d(LOG, "Killing actaul media player...");
+                            mp.stop();
+                            mp.release();
+                            mp = null;
+                        }
+                        else {
+                            Log.d(LOG, "Playing media player wudu_djouher072015...");
+                            mp = MediaPlayer.create(prefs.getContext(), R.raw.adhan_makkah);
+                            mp.start();
+                        }
+                    } catch (Exception e) {
+                        Log.d(LOG, e.toString());
+                    }
                     return true;
                 }
             });
@@ -99,18 +104,31 @@ public class SettingsActivity
             Log.d(LOG,"[ONCREATE] STEP 1 - Button setUp");
             buttonTestWudu.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 private String LOG = "OnPreferenceClickListenerWudu";
+                private MediaPlayer mp;
 
                 @Override
                 public boolean onPreferenceClick(Preference prefs) {
                     //finish();
                     Log.d(LOG, "Click on Test Wudu");
-                    MediaPlayer mp = MediaPlayer.create(prefs.getContext(), R.raw.wudu_djouher072015);
-                    mp.start();
+                    try {
+                        if (mp != null) {
+                            Log.d(LOG, "Killing actaul media player...");
+                            mp.stop();
+                            mp.release();
+                            mp = null;
+                        }
+                        else {
+                            Log.d(LOG, "Playing media player wudu_djouher072015...");
+                            mp = MediaPlayer.create(prefs.getContext(), R.raw.wudu_djouher072015);
+                            mp.start();
+                        }
+                    } catch (Exception e) {
+                        Log.d(LOG, e.toString());
+                    }
                     return true;
                 }
             });
         }
-
 
         // Preference Recommendation button management
         Preference recommendationBtn = (Preference) getPreferenceManager().findPreference("recommendation_id");
@@ -122,15 +140,7 @@ public class SettingsActivity
 
                 @Override
                 public boolean onPreferenceClick(Preference prefs) {
-                    //finish();
-                    /*
-                    Log.d(LOG, "Click on Recommendation Btn...");
-                    try {
-                        ListPreference lp = (ListPreference)findPreference("recommendation_id");
-                        Log.d(LOG, "Setting value...");
-                        lp.setValue("3"); // Cancel
-                        Log.d(LOG, "Value setted to 3");
-                    } catch (Exception e) { Log.d(LOG,"Exception: " + e.toString()); } */
+                    //finish()
                     return true;
                 }
             });
@@ -148,7 +158,9 @@ public class SettingsActivity
             return;
         }
 
+
         Log.d(LOG, "[SETTING] Set Security");
+
         StrictMode.ThreadPolicy old = StrictMode.getThreadPolicy();
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder(old)
                 .permitDiskWrites()
@@ -157,37 +169,35 @@ public class SettingsActivity
         // use the older PreferenceActivity APIs.
 
         // Add 'general' preferences.
+
         addPreferencesFromResource(R.xml.pref_general);
 
         // Add 'prayer times' preferences, and a corresponding header.
-        PreferenceCategory fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.pref_header_prayers_time);
-        getPreferenceScreen().addPreference(fakeHeader);
+        PreferenceCategory fakeHeaderPrayerTime = new PreferenceCategory(this);
+        fakeHeaderPrayerTime.setTitle(R.string.pref_header_prayers_time);
+        getPreferenceScreen().addPreference(fakeHeaderPrayerTime);
         addPreferencesFromResource(R.xml.pref_prayers_times);
 
         // Add 'adjustment' preferences, and a corresponding header.
-        fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.pref_header_prayers_time_adjustment);
-        getPreferenceScreen().addPreference(fakeHeader);
+        PreferenceCategory fakeHeaderAdjustment = new PreferenceCategory(this);
+        fakeHeaderAdjustment.setTitle(R.string.pref_header_prayers_time_adjustment);
+        getPreferenceScreen().addPreference(fakeHeaderAdjustment);
         addPreferencesFromResource(R.xml.pref_prayers_times_adjustments);
 
         // Add 'notifications' preferences, and a corresponding header.
-        fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.pref_header_notifications);
-        getPreferenceScreen().addPreference(fakeHeader);
+        PreferenceCategory fakeHeaderNotification = new PreferenceCategory(this);
+        fakeHeaderNotification.setTitle(R.string.pref_header_notifications);
+        getPreferenceScreen().addPreference(fakeHeaderNotification);
         addPreferencesFromResource(R.xml.pref_notification);
-
-        // Add 'data and sync' preferences, and a corresponding header.
-        // fakeHeader = new PreferenceCategory(this);
-        // fakeHeader.setTitle(R.string.pref_header_data_sync);
-        // getPreferenceScreen().addPreference(fakeHeader);
-        // addPreferencesFromResource(R.xml.pref_data_sync);
 
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
         //bindPreferenceSummaryToValue(findPreference("location_id"));
+        bindPreferenceSummaryToValue(findPreference("customAngle_id"));
         bindPreferenceSummaryToValue(findPreference("convention_id"));
+        bindPreferenceSummaryToValue(findPreference("fajr_angle_id"));
+        bindPreferenceSummaryToValue(findPreference("isha_angle_id"));
         bindPreferenceSummaryToValue(findPreference("juristic_id"));
         bindPreferenceSummaryToValue(findPreference("higher_lattitude_id"));
         bindPreferenceSummaryToValue(findPreference("fajr_adj_id"));
@@ -196,7 +206,6 @@ public class SettingsActivity
         bindPreferenceSummaryToValue(findPreference("maghreb_adj_id"));
         bindPreferenceSummaryToValue(findPreference("ishaa_adj_id"));
         bindPreferenceSummaryToValue(findPreference("notifications_abulition_id"));
-        //bindPreferenceSummaryToValue(findPreference("sync_frequency"));
     }
 
     /**
@@ -213,7 +222,7 @@ public class SettingsActivity
      */
     private static boolean isXLargeTablet(Context context) {
         return (context.getResources().getConfiguration().screenLayout
-                & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_XLARGE;
+                & android.content.res.Configuration.SCREENLAYOUT_SIZE_MASK) >= android.content.res.Configuration.SCREENLAYOUT_SIZE_XLARGE;
     }
 
     /**
@@ -233,8 +242,8 @@ public class SettingsActivity
      * {@inheritDoc}
      */
     @Override
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public void onBuildHeaders(List<Header> target) {
+        Log.d(LOG, "Building headers...");
         if (!isSimplePreferences(this)) {
             loadHeadersFromResource(R.xml.pref_headers, target);
         }
@@ -254,37 +263,58 @@ public class SettingsActivity
             String LOG = "PreferenceChangeListener";
             Log.d(LOG, "[RECOMMENDATION] STP 0 - preference key:" + stringValue);
 
+            if (preference.getKey().equals("customAngle_id")) {
+
+                Log.d(LOG, "Custom Angles click: " + value);
+                //Boolean booleanValue = new Boolean((Boolean) value);
+
+                SharedPreferences sp =  preference.getSharedPreferences(); //.getSharedPreferences(ConfigurationClass.SHARED_PREF, Context.MODE_PRIVATE);
+                PreferenceManager pm = preference.getPreferenceManager();
+                ListPreference conventionList = (ListPreference) pm.findPreference("convention_id");
+
+                if (value.toString().equals("true")) {
+                    Log.d(LOG, "Value is true: " + value);
+                    conventionList.setEnabled(false);
+                } else {
+                    Log.d(LOG, "Value is false: " +  value);
+                    conventionList.setEnabled(true); }
+                stringValue = "";
+            }
+
             if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
                 ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
                 String angles = "";
+                Log.d(LOG,"Change on Convention ...");
                 if (preference.getKey().equals("convention_id")) {
                     switch (Integer.parseInt(stringValue)) {
-                        case PrayTime.METHOD_EGYPT:
+                        case ConfigurationClass.METHOD_EGYPT:
                             angles = angles + "(19.5°/17.5°)";
                             break;
-                        case PrayTime.METHOD_ISNA:
+                        case ConfigurationClass.METHOD_ISNA:
                             angles =  angles + "(15°/15°)";
                             break;
-                        case PrayTime.METHOD_KARACHI:
+                        case ConfigurationClass.METHOD_KARACHI:
                             angles =  angles + "(18°/18°)";
                             break;
-                        case PrayTime.METHOD_MAKKAH:
+                        case ConfigurationClass.METHOD_MAKKAH:
                             angles =  angles + "(18.5°/90 min after Maghrib, 120 min during Ramadhan)";
                             break;
-                        case PrayTime.METHOD_MWL:
+                        case ConfigurationClass.METHOD_MWL:
                             angles =  angles + "(18°/17°)";
                             break;
-                        case PrayTime.METHOD_JAFARI:
+                        case ConfigurationClass.METHOD_JAFARI:
                             angles =  angles + "(16°/14°)";
                             break;
-                        case PrayTime.METHOD_TEHERAN:
+                        case ConfigurationClass.METHOD_TEHERAN:
                             angles =  angles + "(17.7°/14°)";
                             break;
-                        case PrayTime.METHOD_CUSTOM:
+                        case ConfigurationClass.METHOD_CUSTOM:
                             // implement fajr/isha selection
+                            Log.d(LOG, "Custom angle selection...");
+
                             break;
                         default:
                             angles = "";
@@ -297,7 +327,7 @@ public class SettingsActivity
 
                 } else if (preference.getKey().equals("recommendation_id")) {
                     Log.d(LOG, "Reselect default value - recommedation_id");
-                    ((ListPreference) preference).setValue(CANCEL_RECOMMENDATION);
+                    ((ListPreference) preference).setValue(ConfigurationClass.CANCEL_RECOMMENDATION);
                 }
                 else {
                     // Set the summary to reflect the new value.
@@ -307,30 +337,6 @@ public class SettingsActivity
                                     : null);
                 }
             }
-            /*
-            else if (preference instanceof RingtonePreference) {
-                // For ringtone preferences, look up the correct display value
-                // using RingtoneManager.
-                if (TextUtils.isEmpty(stringValue)) {
-                    // Empty values correspond to 'silent' (no ringtone).
-                    preference.setSummary(R.string.pref_ringtone_silent);
-
-                } else {
-                    Ringtone ringtone = RingtoneManager.getRingtone(
-                            preference.getContext(), Uri.parse(stringValue));
-
-                    if (ringtone == null) {
-                        // Clear the summary if there was a lookup error.
-                        preference.setSummary(null);
-                    } else {
-                        // Set the summary to reflect the new ringtone display
-                        // name.
-                        String name = ringtone.getTitle(preference.getContext());
-                        preference.setSummary(name);
-                    }
-                }
-
-            }*/
             else {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
@@ -368,18 +374,20 @@ public class SettingsActivity
 
         // Trigger the listener immediately with the preference's
         // current value.
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
+        if (preference.getKey().equals("customAngle_id")) {
+            String value = String.valueOf(PreferenceManager
+                    .getDefaultSharedPreferences(preference.getContext())
+                    .getBoolean("customAngle_id", true));
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,value);
+        }
+        else {
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+                    PreferenceManager
+                            .getDefaultSharedPreferences(preference.getContext())
+                            .getString(preference.getKey(), ""));
+        }
     }
 
-
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Log.d(LOG,"[onSharedPreferenceChanged] key:" + key);
-        //ListPreference lp = (ListPreference) findPreference(key);
-        //Log.d(LOG,"[Onchange] key:" + key + " lp:" + lp.getValue());
-    }
 
     @Override
     public void onLocationChanged(Location location) {
@@ -409,16 +417,11 @@ public class SettingsActivity
     public static class GeneralPreferenceFragment extends PreferenceFragment {
         private String LOG = "General";
         @Override
-        public void onCreate(Bundle savedInstanceState) {
+        public void onCreate(Bundle savedInstanceState){
 
-            Log.d(LOG, "[SETTING_GENERAL] Set Security");
-            StrictMode.ThreadPolicy old = StrictMode.getThreadPolicy();
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder(old)
-                    .permitDiskWrites()
-                    .build());
-            super.onCreate(savedInstanceState);
+        Log.d(LOG, "[SETTING_GENERAL] Set Security");
+        super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_general);
-
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
@@ -427,6 +430,7 @@ public class SettingsActivity
             //bindPreferenceSummaryToValue(findPreference("recommendation_id"));
             //bindPreferenceSummaryToValue(findPreference("example_list"));
         }
+
     }
 
     /**
@@ -477,18 +481,48 @@ public class SettingsActivity
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            //addPreferencesFromResource(R.xml.pref_prayers_times);
+            Log.d(LOG, "Calling on create fragment");
+            addPreferencesFromResource(R.xml.pref_prayers_times);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("pref_fajr_adjustment"));
-            bindPreferenceSummaryToValue(findPreference("pref_duhr_adjustment"));
-            bindPreferenceSummaryToValue(findPreference("pref_asr_adjustment"));
-            bindPreferenceSummaryToValue(findPreference("pref_maghreb_adjustment"));
-            bindPreferenceSummaryToValue(findPreference("pref_ishaa_adjustment"));
+            bindPreferenceSummaryToValue(findPreference("pref_list_convention_titles"));
         }
+
+
+        /*@Override
+        public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
+        {
+            Log.d(LOG, "Change on custom angle " + prefs.getBoolean(key, false));
+            if (key.equals("customAngle_id")) {
+
+                Log.d(LOG, "Custom Angles click: " + prefs.getBoolean(key, false));
+
+                Preference conventionCK = findPreference("convention_id");
+                //SharedPreferences sp =  getApplicationContext().getSharedPreferences(ConfigurationClass.SHARED_PREF, Context.MODE_PRIVATE);
+                //CheckBoxPreference conventionCK = (CheckBoxPreference) sp.findPreference(sp.getString(R.string.convention_id));
+                if (prefs.getBoolean(key,false)) {
+                    Log.d(LOG, "Value is true: " + prefs.getBoolean(key,false));
+                    conventionCK.setEnabled(false);
+                } else {
+                    Log.d(LOG, "Value is false: " + prefs.getBoolean(key,false));
+                    conventionCK.setEnabled(true); }
+            }
+        }
+        @Override
+        public void onResume() {
+            super.onResume();
+            getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+
+        }
+
+        @Override
+        public void onPause() {
+            getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+            super.onPause();
+        }*/
     }
 
 
@@ -502,13 +536,18 @@ public class SettingsActivity
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_prayers_times);
+            addPreferencesFromResource(R.xml.pref_prayers_times_adjustments);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("pref_list_convention_titles"));
+            bindPreferenceSummaryToValue(findPreference("pref_fajr_adjustment"));
+            bindPreferenceSummaryToValue(findPreference("pref_duhr_adjustment"));
+            bindPreferenceSummaryToValue(findPreference("pref_asr_adjustment"));
+            bindPreferenceSummaryToValue(findPreference("pref_maghreb_adjustment"));
+            bindPreferenceSummaryToValue(findPreference("pref_ishaa_adjustment"));
+
         }
     }
     @Override
@@ -518,9 +557,6 @@ public class SettingsActivity
         // this is the intent broadcast/returned to the widget
         Intent updateIntent = new Intent(this, MuslimPrayersBroadcastReceiver.class);
         updateIntent.setAction(MuslimPrayers.PREFERENCE_UPDATE);
-        String defaultValue = getResources().getString(R.string.pref_list_convention_value_default);
-        //ListPreference lp = (ListPreference) findPreference("convention_id");
-        //(this.getPreferences((MODE_PRIVATE)).getInt(new String("" + R.string.pref_header_convention),-1)));
         sendBroadcast(updateIntent);
         super.onBackPressed();
     }
@@ -543,20 +579,20 @@ public class SettingsActivity
                 Log.d(LOG, "[ON RESUME] key:" + key);
 
                 if (key.equals("recommendation_id")) {
-                    if (prefs.getString(key,null).equals(SHARED_RECOMMENDATION)) {
+                    if (prefs.getString(key,null).equals(ConfigurationClass.SHARED_RECOMMENDATION)) {
                         subject = "[MuslimPrayers] Sharing ideas...";
                         body = "Here some suggestions \n\n\n\nRegards,\nAdvicer";
                         to="muslimprayers@bbsymphony.com";
-                    } else if (prefs.getString(key,null).equals(HELP_RECOMMENDATION)) {
+                    } else if (prefs.getString(key,null).equals(ConfigurationClass.HELP_RECOMMENDATION)) {
                         subject = "[MuslimPrayers] Help request...";
                         body = "Here looking for some help/guidance on \n\n\n\nRegards,\nHelp needed";
                         to="muslimprayers@bbsymphony.com";
-                    } else if (prefs.getString(key,null).equals(BUG_RECOMMENDATION)) {
+                    } else if (prefs.getString(key,null).equals(ConfigurationClass.BUG_RECOMMENDATION)) {
                         subject = "[MuslimPrayers] Bug report...";
                         body = "Found a bug in the apps, \n\n\n\nRegards,\nHelp needed";
                         to="muslimprayers@bbsymphony.com";
                     }
-                    if (!prefs.getString(key,null).equals(CANCEL_RECOMMENDATION)) {
+                    if (!prefs.getString(key,null).equals(ConfigurationClass.CANCEL_RECOMMENDATION)) {
                         Log.d(LOG, "[RECOMMENDATION] prefernce key:" + key);
                         Intent emailIntent = new Intent(Intent.ACTION_SEND);
                         //i.setType("text/plain"); //use this line for testing in the emulator
@@ -568,7 +604,7 @@ public class SettingsActivity
 
                         ListPreference lp = (ListPreference)findPreference("recommendation_id");
                         Log.d(LOG, "Setting value...");
-                        lp.setValue(CANCEL_RECOMMENDATION); // Cancel
+                        lp.setValue(ConfigurationClass.CANCEL_RECOMMENDATION); // Cancel
                     }
                 }
 

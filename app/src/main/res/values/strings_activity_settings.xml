@@ -47,7 +47,6 @@
     <string name="pref_header_prayers_time_convention">Convention</string>
     <string name="pref_header_convention">Custom Angles</string>
     <string-array name="pref_list_convention_title">
-        <item>"Custom Angles"</item>
         <item>"Egytian General Authority of Survey"</item>
         <item>"North America (ISNA)"</item>
         <item>"Muslim World League (MWL)"</item>
@@ -58,7 +57,6 @@
     </string-array>
     <!-- Refer to PrayTime class for static value-->
     <string-array name="pref_list_convention_value">
-        <item>"7"</item>
         <item>"5"</item>
         <item>"2"</item>
         <item>"3"</item>
@@ -68,6 +66,9 @@
         <item>"0"</item>
     </string-array>
     <string name="pref_list_convention_value_default">7</string>
+
+    <string name="pref_daylight_saving_title">Daylight Saving</string>
+    <string name="pref_islamic_date_title">Display islamic date</string>
 
     <!-- Refer to PrayTime class for static value-->
     <string name="pref_header_prayers_time_adjustment">ADJUSTMENT</string>
@@ -111,6 +112,142 @@
         <item>"3"</item>
     </string-array>
 
+    <string name="fajr_angle_title">Fajr angle</string>
+    <string name="isha_angle_title">Isha angle</string>
+
+    <string-array name="pref_list_fajr_spinner">
+        <item>"9º"</item>
+        <item>"9.5º"</item>
+        <item>"10º"</item>
+        <item>"10.5º"</item>
+        <item>"11º"</item>
+        <item>"11.5º"</item>
+        <item>"12º"</item>
+        <item>"12.5º"</item>
+        <item>"13º"</item>
+        <item>"13.5º"</item>
+        <item>"14º"</item>
+        <item>"14.5º"</item>
+        <item>"15º"</item>
+        <item>"15.5º"</item>
+        <item>"16º"</item>
+        <item>"16.5º"</item>
+        <item>"17º"</item>
+        <item>"17.5º"</item>
+        <item>"18º"</item>
+        <item>"18.5º"</item>
+        <item>"19º"</item>
+        <item>"19.5º"</item>
+        <item>"20º"</item>
+        <item>"20.5º"</item>
+        <item>"21º"</item>
+        <item>"21.5º"</item>
+        <item>"22º"</item>
+        <item>"22.5º"</item>
+        <item>"23º"</item>
+        <item>"23.5º"</item>
+    </string-array>
+
+    <string-array name="pref_list_fajr_spinner_value">
+        <item>"9"</item>
+        <item>"9.5"</item>
+        <item>"10"</item>
+        <item>"10.5"</item>
+        <item>"11"</item>
+        <item>"11.5"</item>
+        <item>"12"</item>
+        <item>"12.5"</item>
+        <item>"13"</item>
+        <item>"13.5"</item>
+        <item>"14"</item>
+        <item>"14.5"</item>
+        <item>"15"</item>
+        <item>"15.5"</item>
+        <item>"16"</item>
+        <item>"16.5"</item>
+        <item>"17"</item>
+        <item>"17.5"</item>
+        <item>"18"</item>
+        <item>"18.5"</item>
+        <item>"19"</item>
+        <item>"19.5"</item>
+        <item>"20"</item>
+        <item>"20.5"</item>
+        <item>"21"</item>
+        <item>"21.5"</item>
+        <item>"22"</item>
+        <item>"22.5"</item>
+        <item>"23"</item>
+        <item>"23.5"</item>
+    </string-array>
+
+
+    <string-array name="pref_list_isha_spinner">
+        <item>"9º"</item>
+        <item>"9.5º"</item>
+        <item>"10º"</item>
+        <item>"10.5º"</item>
+        <item>"11º"</item>
+        <item>"11.5º"</item>
+        <item>"12º"</item>
+        <item>"12.5º"</item>
+        <item>"13º"</item>
+        <item>"13.5º"</item>
+        <item>"14º"</item>
+        <item>"14.5º"</item>
+        <item>"15º"</item>
+        <item>"15.5º"</item>
+        <item>"16º"</item>
+        <item>"16.5º"</item>
+        <item>"17º"</item>
+        <item>"17.5º"</item>
+        <item>"18º"</item>
+        <item>"18.5º"</item>
+        <item>"19º"</item>
+        <item>"19.5º"</item>
+        <item>"20º"</item>
+        <item>"20.5º"</item>
+        <item>"21º"</item>
+        <item>"21.5º"</item>
+        <item>"22º"</item>
+        <item>"22.5º"</item>
+        <item>"23º"</item>
+        <item>"23.5º"</item>
+    </string-array>
+
+    <string-array name="pref_list_isha_spinner_value">
+        <item>"9"</item>
+        <item>"9.5"</item>
+        <item>"10"</item>
+        <item>"10.5"</item>
+        <item>"11"</item>
+        <item>"11.5"</item>
+        <item>"12"</item>
+        <item>"12.5"</item>
+        <item>"13"</item>
+        <item>"13.5"</item>
+        <item>"14"</item>
+        <item>"14.5"</item>
+        <item>"15"</item>
+        <item>"15.5"</item>
+        <item>"16"</item>
+        <item>"16.5"</item>
+        <item>"17"</item>
+        <item>"17.5"</item>
+        <item>"18"</item>
+        <item>"18.5"</item>
+        <item>"19"</item>
+        <item>"19.5"</item>
+        <item>"20"</item>
+        <item>"20.5"</item>
+        <item>"21"</item>
+        <item>"21.5"</item>
+        <item>"22"</item>
+        <item>"22.5"</item>
+        <item>"23"</item>
+        <item>"23.5"</item>
+    </string-array>
+
     <!-- Example settings for Data & Sync -->
     <string name="pref_header_data_sync">Data &amp; sync</string>
 
@@ -135,12 +272,10 @@
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
     <!-- Example settings for Notifications -->
-    <string name="pref_header_notifications">Notifications</string>
+    <string name="pref_header_notifications">NOTIFICATION</string>
 
     <string name="pref_title_new_event_notifications">Events notifications</string>
 
-    <string name="pref_title_ringtone_salat">Ringtone Salat</string>
-    <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_abuliton">Wudu</string>
     <string name="pref_title_salat">Salat</string>
