@@ -1,4 +1,4 @@
-package com.bbsymphony.muslimprayers;
+package com.bbsymphony.muslimprayers.alert;
 
 import android.app.Activity;
 import android.app.IntentService;
@@ -19,6 +19,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RemoteViews;
 import android.widget.TextView;
+
+import com.bbsymphony.muslimprayers.ConfigurationClass;
+import com.bbsymphony.muslimprayers.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -113,21 +116,19 @@ public class SalatAlarmService extends IntentService {
         String time = df.format(new Date());
         Bundle prayerTimes = intent.getExtras();
 
-        Log.d(LOG,"Fajr_time:" + prayerTimes.getString("fajr_time") +
-                " time: " + time);
-        if (prayerTimes.getString("fajr_time","99:99").equals(time)) {
+        if (prayerTimes.getString(ConfigurationClass.EXTRA_FAJR,"99:99").equals(time)) {
             return true;
         }
-        if (prayerTimes.getString("duhr_time","99:99").equals(time)) {
+        if (prayerTimes.getString(ConfigurationClass.EXTRA_DUHR,"99:99").equals(time)) {
             return true;
         }
-        if (prayerTimes.getString("asr_time","99:99").equals(time)) {
+        if (prayerTimes.getString(ConfigurationClass.EXTRA_ASR,"99:99").equals(time)) {
             return true;
         }
-        if (prayerTimes.getString("maghrib_time","99:99").equals(time)) {
+        if (prayerTimes.getString(ConfigurationClass.EXTRA_MAGHRIB,"99:99").equals(time)) {
             return true;
         }
-        if (prayerTimes.getString("isha_time","99:99").equals(time)) {
+        if (prayerTimes.getString(ConfigurationClass.EXTRA_ISHAA,"99:99").equals(time)) {
             return true;
         }
         return false;
@@ -138,25 +139,25 @@ public class SalatAlarmService extends IntentService {
         String time = df.format(new Date());
         Bundle prayerTimesWudu = intent.getExtras();
 
-        Log.d(LOG,"Fajr_wudu_time:" + prayerTimesWudu.getString("fajr_wudu_time")  + "\n" +
-                "Duhr_wudu_time:" + prayerTimesWudu.getString("duhr_wudu_time")  + "\n" +
-                "Asr_wudu_time:" + prayerTimesWudu.getString("asr_wudu_time")  + "\n" +
-                "Maghrib_wudu_time:" + prayerTimesWudu.getString("maghrib_wudu_time")  + "\n" +
-                "Isha_wudu_time:" + prayerTimesWudu.getString("isha_wudu_time")  + "\n" +
+        Log.d(LOG,"Fajr_wudu_time:" + prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_FAJR)  + "\n" +
+                "Duhr_wudu_time:" + prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_DUHR)  + "\n" +
+                "Asr_wudu_time:" + prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_ASR)  + "\n" +
+                "Maghrib_wudu_time:" + prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_MAGHRIB)  + "\n" +
+                "Isha_wudu_time:" + prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_ISHAA)  + "\n" +
                 " time: " + time);
-        if (prayerTimesWudu.getString("fajr_wudu_time","99:99").equals(time)) {
+        if (prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_FAJR,"99:99").equals(time)) {
             return true;
         }
-        if (prayerTimesWudu.getString("duhr_wudu_time","99:99").equals(time)) {
+        if (prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_DUHR,"99:99").equals(time)) {
             return true;
         }
-        if (prayerTimesWudu.getString("asr_wudu_time","99:99").equals(time)) {
+        if (prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_ASR,"99:99").equals(time)) {
             return true;
         }
-        if (prayerTimesWudu.getString("maghrib_wudu_time","99:99").equals(time)) {
+        if (prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_MAGHRIB,"99:99").equals(time)) {
             return true;
         }
-        if (prayerTimesWudu.getString("isha_wudu_time","99:99").equals(time)) {
+        if (prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_ISHAA,"99:99").equals(time)) {
             return true;
         }
         return false;

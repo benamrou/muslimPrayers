@@ -1,4 +1,4 @@
-package com.bbsymphony.muslimprayers;
+package com.bbsymphony.muslimprayers.setting;
 
 /**
  * Created by Ahmed on 7/16/2015.
@@ -23,6 +23,11 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+
+import com.bbsymphony.muslimprayers.ConfigurationClass;
+import com.bbsymphony.muslimprayers.MuslimPrayers;
+import com.bbsymphony.muslimprayers.MuslimPrayersBroadcastReceiver;
+import com.bbsymphony.muslimprayers.R;
 
 import java.util.List;
 

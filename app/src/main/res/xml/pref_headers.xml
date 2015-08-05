@@ -3,19 +3,19 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.bbsymphony.muslimprayers.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="com.bbsymphony.muslimprayers.setting.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general"
         android:summary="General settings"/>
 
     <header
-        android:fragment="com.bbsymphony.muslimprayers.SettingsActivity$PrayerTimesPreferenceFragment"
+        android:fragment="com.bbsymphony.muslimprayers.setting.SettingsActivity$PrayerTimesPreferenceFragment"
         android:title="@string/pref_header_prayers_time"/>
 
     <header
-        android:fragment="com.bbsymphony.muslimprayers.SettingsActivity$PrayerTimesAdjustmentPreferenceFragment"
+        android:fragment="com.bbsymphony.muslimprayers.setting.SettingsActivity$PrayerTimesAdjustmentPreferenceFragment"
         android:title="@string/pref_header_prayers_time_adjustment"/>
     <header
-        android:fragment="com.bbsymphony.muslimprayers.SettingsActivity$NotificationPreferenceFragment"
+        android:fragment="com.bbsymphony.muslimprayers.setting.SettingsActivity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications" />
 
 </preference-headers>

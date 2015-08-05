@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
+import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 
@@ -28,11 +29,12 @@ public class MuslimPrayers extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-            final int N = appWidgetIds.length;
-            Log.w(LOG, "[ON UPDATE] STEP 0 - method called");
-            Log.d(LOG, "[SETTING] STEP 1 - Set Security");
-             this.mReceiver = new MuslimPrayersBroadcastReceiver();
-            Intent intent = new Intent(context, MuslimPrayersBroadcastReceiver.class);
+        final int N = appWidgetIds.length;
+        Log.w(LOG, "[ON UPDATE] STEP 0 - method called");
+        Log.d(LOG, "[SETTING] STEP 1 - Set Security");
+        this.mReceiver = new MuslimPrayersBroadcastReceiver();
+        Intent intent = new Intent(context, MuslimPrayersBroadcastReceiver.class);
+
 
             IntentFilter filter = new IntentFilter();
             filter.addAction("com.bbsymphony.dailysalat.APPS_UPDATE");
@@ -67,6 +69,7 @@ public class MuslimPrayers extends AppWidgetProvider {
         Log.w(LOG, "[ON UPDATE] STEP 5 - SetOnClick done");
 
         Log.w(LOG, "[ON UPDATE] STEP 6 - UpdatingAppWidget");
+
         appWidgetManager.updateAppWidget(appWidgetIds, views);
 
         }
