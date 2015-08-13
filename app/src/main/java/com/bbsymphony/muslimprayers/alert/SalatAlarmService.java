@@ -81,7 +81,7 @@ public class SalatAlarmService extends IntentService {
             }
             Log.d(LOG,"Playing media player wudu_djouher072015...");
             mpSalat = MediaPlayer.create(context, R.raw.adhan_makkah);
-            mpSalat.prepare();
+            //mpSalat.prepare();
             mpSalat.start();
         } catch (Exception e) {
             Log.d(LOG, e.toString());
@@ -100,7 +100,7 @@ public class SalatAlarmService extends IntentService {
             }
             Log.d(LOG,"Playing media player wudu_djouher072015...");
             mpWudu = MediaPlayer.create(context, R.raw.wudu_djouher072015);
-            mpWudu.prepare();
+            //mpWudu.prepare();
             mpWudu.start();
         } catch (Exception e) {
             Log.d(LOG, e.toString());

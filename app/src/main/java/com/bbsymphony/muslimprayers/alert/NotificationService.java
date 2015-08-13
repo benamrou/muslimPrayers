@@ -26,11 +26,7 @@ public class NotificationService extends IntentService {
     private DateFormat df = new SimpleDateFormat("HH:mm");
 
     // Event Notification management
-    private NotificationMuslimPrayers notificationSalat = new NotificationMuslimPrayers();
-    private NotificationMuslimPrayers notificationWudu = new NotificationMuslimPrayers();
-
-    private int notificationSalatID = 0;
-    private int notificationWuduID = 0;
+    private int notificationID = 0;
 
 
     public NotificationService() {
@@ -72,11 +68,11 @@ public class NotificationService extends IntentService {
         if (prefs.getBoolean("notifications_new_event_id", true)) {
             NotificationMuslimPrayers notification = new NotificationMuslimPrayers();
 
-            notificationSalatID = notificationSalatID + 1;
-            notification.notify(getApplicationContext(), "Prayer Notification",
-                    "Salat " + prayer + " starts in X minutes",
+            notificationID = notificationID + 1;
+            notification.notify(getApplicationContext(), prayer + " prayer notification",
+                "Salat " + prayer + " is in " + getResources().getString(R.string.x_minutes_notification) + " minutes",
                     R.drawable.ic_launcher,
-                    0, notificationSalatID);
+                    0, notificationID);
         }
 
     }

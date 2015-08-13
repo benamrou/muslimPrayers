@@ -1,6 +1,5 @@
 <resources>
     <string name="title_activity_settings">Settings</string>
-
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
@@ -102,7 +101,7 @@
         <item>"None"</item>
         <item>"Middle of the night"</item>
         <item>"1/7 of the night"</item>
-        <item>"Angle based  (default)"</item>
+        <item>"Angle based  (Default)"</item>
     </string-array>
     <!-- Refer to PrayTime class for static value-->
     <string-array name="pref_list_higher_lattitude_value">
@@ -280,6 +279,6 @@
     <string name="pref_title_abuliton">Wudu</string>
     <string name="pref_title_salat">Salat</string>
     <string name="pref_title_vibrate">Vibrate</string>
-    <string name="pref_title_test">Test Adhan</string>
+    <string name="pref_title_test">Play Adhan</string>
     <string name="pref_title_test_wudu">Test Wudu</string>
 </resources>

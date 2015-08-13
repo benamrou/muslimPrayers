@@ -24,6 +24,7 @@ public class MuslimPrayers extends AppWidgetProvider {
     public static final String PREFERENCE_UPDATE = "preference_update";
     public static final String SALAT_TIME = "salat_time";
     public static final String ABULITION_TIME = "abulition_time";
+    public static final String NOTIFICATION_TIME = "notification_time";
 
     private MuslimPrayersBroadcastReceiver mReceiver;
 

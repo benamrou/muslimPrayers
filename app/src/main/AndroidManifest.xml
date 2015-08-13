@@ -33,6 +33,10 @@
             android:name=".alert.SalatAlarmService"
             android:enabled="true" >
         </service>
+        <service
+            android:name=".alert.NotificationService"
+            android:enabled="true" >
+        </service>
 
         <receiver
             android:name=".MuslimPrayersBroadcastReceiver"

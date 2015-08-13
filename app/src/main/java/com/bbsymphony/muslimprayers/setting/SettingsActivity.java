@@ -21,6 +21,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.util.Log;
 
 
@@ -71,6 +72,14 @@ public class SettingsActivity
         super.onPostCreate(savedInstanceState);
         Log.d(LOG, "[SETTING] ON CREATE - Preference name:" + this.getPreferenceManager().getSharedPreferencesName());
         setupSimplePreferencesScreen();
+
+        /* **************************************************************************************** */
+        // Hide Wudu entry
+        Preference somePreference = findPreference("notifications_test_wudu_id");
+        PreferenceScreen preferenceScreen = getPreferenceScreen();
+        preferenceScreen.removePreference(somePreference);
+
+        /* **************************************************************************************** */
 
         // Preference Test Adhan button management
         Preference buttonAdhan = (Preference) getPreferenceManager().findPreference("notifications_test_id");
@@ -353,6 +362,9 @@ public class SettingsActivity
                         preference.getKey().equals("notifications_abulition_id")) {
                     if (stringValue.equals("0") || stringValue.equals("1") || stringValue.equals("-1")) {
                         preference.setSummary(stringValue + " minute");
+                        if (preference.getKey().equals("notifications_abulition_id") && stringValue.equals("0")) {
+                            preference.setSummary(stringValue + " minute (no notification)");
+                        }
                     }
                     else
                         preference.setSummary(stringValue + " minutes");

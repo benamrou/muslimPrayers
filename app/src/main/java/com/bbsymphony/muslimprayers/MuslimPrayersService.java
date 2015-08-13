@@ -9,13 +9,23 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.IBinder;
+import android.os.StrictMode;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import com.bbsymphony.muslimprayers.setting.SettingsActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 
 public class MuslimPrayersService
@@ -35,6 +45,21 @@ public class MuslimPrayersService
      */
     public MuslimPrayersService(String name) {
         super(name);
+    }
+
+
+    @Override
+    public void onStart(Intent intent, int startId) {
+        Log.d(LOG, "[ONSTART] Service MuslimPrayers kicked off...");
+        super.onStart(intent, startId);
+
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(LOG, "[ONSTARTCOMMAND] Service MuslimPrayers kicked off...");
+        super.onStartCommand(intent, flags, startId);
+        return START_NOT_STICKY;
     }
 
     /**
@@ -57,8 +82,6 @@ public class MuslimPrayersService
     {
         Log.w(LOG, "[ONHandle] Date today: " + dateDisplayedFormat.format(dateDisplayed));
 
-        Log.d(LOG, "[SETTING] Set Security");
-
         AppWidgetManager appWidgetManager =
                 AppWidgetManager.getInstance(this);
 
@@ -73,8 +96,11 @@ public class MuslimPrayersService
         {
             updateAllAppWidgets(appWidgetManager);
         }
+
+        getApplicationContext().sendBroadcast(intent);
     }
 
+    /**
     /**
      * For each Daily Salat app widget on the user's home
      * screen, updates its display with a new date, and
