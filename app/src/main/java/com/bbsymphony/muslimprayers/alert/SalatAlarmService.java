@@ -56,9 +56,20 @@ public class SalatAlarmService extends IntentService {
         }
 
         if (isTimeSalat(intent) && prefs.getBoolean("notifications_salat_id",true)) {
-            playSalatSound(this.getApplicationContext());
+            if (isFajrSalat(intent)) {
+                playSalatFajrSound(this.getApplicationContext());
+            }
+            else {
+                playSalatSound(this.getApplicationContext());
+            }
         }
 
+    }
+
+    private boolean isFajrSalat(Intent intent) {
+        String time = df.format(new Date());
+        Bundle prayerTimes = intent.getExtras();
+        return prayerTimes.getString(ConfigurationClass.EXTRA_FAJR, "99:99").equals(time);
     }
 
     @Override
@@ -70,41 +81,21 @@ public class SalatAlarmService extends IntentService {
 
     private void playSalatSound(Context context) {
         Log.d(LOG, "[PLAYSOUND] Playing Salat sound...");
-        mpSalat = MediaPlayer.create(context, R.raw.adhan_makkah);
-        Log.d(LOG, "Click on Media Player Salat Test");
-        try {
-            if (mpSalat != null) {
-                Log.d(LOG, "Killing actaul media player...");
-                mpSalat.stop();
-                mpSalat.release();
-                mpSalat = null;
-            }
-            Log.d(LOG,"Playing media player wudu_djouher072015...");
-            mpSalat = MediaPlayer.create(context, R.raw.adhan_makkah);
-            //mpSalat.prepare();
-            mpSalat.start();
-        } catch (Exception e) {
-            Log.d(LOG, e.toString());
-        }
+        SharedPreferences prefs =  this.getSharedPreferences(ConfigurationClass.SHARED_PREF,
+                Context.MODE_PRIVATE);
+        PlaySound.play(context, getResources().getIdentifier(prefs.getString("adhan_id", "R.raw.adhan_makkah.mp3"),
+                "raw", context.getPackageName()));
+    }
+
+
+    private void playSalatFajrSound(Context context) {
+        Log.d(LOG, "[PLAYSOUND] Playing Salat Fajr sound...");
+        PlaySound.play(context, R.raw.fajr_rashid_al_afasy);
     }
 
     private void playWuduSound(Context context) {
         Log.d(LOG, "[PLAYSOUND] Playing Wudu sound...");
-        mpWudu = MediaPlayer.create(context, R.raw.wudu_djouher072015);
-        try {
-            if (mpWudu != null) {
-                Log.d(LOG, "Killing actaul media player...");
-                mpWudu.stop();
-                mpWudu.release();
-                mpWudu = null;
-            }
-            Log.d(LOG,"Playing media player wudu_djouher072015...");
-            mpWudu = MediaPlayer.create(context, R.raw.wudu_djouher072015);
-            //mpWudu.prepare();
-            mpWudu.start();
-        } catch (Exception e) {
-            Log.d(LOG, e.toString());
-        }
+        PlaySound.play(context, R.raw.wudu_djouher072015);
     }
 
     @Override
@@ -115,6 +106,7 @@ public class SalatAlarmService extends IntentService {
     private boolean isTimeSalat (Intent intent) {
         String time = df.format(new Date());
         Bundle prayerTimes = intent.getExtras();
+
 
         if (prayerTimes.getString(ConfigurationClass.EXTRA_FAJR,"99:99").equals(time)) {
             return true;
@@ -128,10 +120,7 @@ public class SalatAlarmService extends IntentService {
         if (prayerTimes.getString(ConfigurationClass.EXTRA_MAGHRIB,"99:99").equals(time)) {
             return true;
         }
-        if (prayerTimes.getString(ConfigurationClass.EXTRA_ISHAA,"99:99").equals(time)) {
-            return true;
-        }
-        return false;
+        return prayerTimes.getString(ConfigurationClass.EXTRA_ISHAA, "99:99").equals(time);
     }
 
 
@@ -157,10 +146,7 @@ public class SalatAlarmService extends IntentService {
         if (prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_MAGHRIB,"99:99").equals(time)) {
             return true;
         }
-        if (prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_ISHAA,"99:99").equals(time)) {
-            return true;
-        }
-        return false;
+        return prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_ISHAA, "99:99").equals(time);
     }
 
     @Override

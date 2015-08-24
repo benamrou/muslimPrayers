@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
-import android.util.TypedValue;
 import android.widget.RemoteViews;
 
 
@@ -17,9 +16,9 @@ import android.widget.RemoteViews;
  */
 public class MuslimPrayers extends AppWidgetProvider {
 
-    private static final String SYNC_CLICKED    = "automaticWidgetSyncButtonClick";
-    public static final String APPS_UPDATE    = "com.bbsymphony.muslimprayers.APPS_UPDATE";
-    private static final String LOG    = "MuslimPrayers";
+    private static final String SYNC_CLICKED = "automaticWidgetSyncButtonClick";
+    public static final String APPS_UPDATE = "com.bbsymphony.muslimprayers.APPS_UPDATE";
+    private static final String LOG = "MuslimPrayers";
     public static final String SETTING_CLICK = "setting_button_click";
     public static final String PREFERENCE_UPDATE = "preference_update";
     public static final String SALAT_TIME = "salat_time";
@@ -33,36 +32,44 @@ public class MuslimPrayers extends AppWidgetProvider {
         final int N = appWidgetIds.length;
         Log.w(LOG, "[ON UPDATE] STEP 0 - method called");
         Log.d(LOG, "[SETTING] STEP 1 - Set Security");
-        this.mReceiver = new MuslimPrayersBroadcastReceiver();
+        //this.mReceiver = new MuslimPrayersBroadcastReceiver();
         Intent intent = new Intent(context, MuslimPrayersBroadcastReceiver.class);
 
 
-            IntentFilter filter = new IntentFilter();
-            filter.addAction("com.bbsymphony.dailysalat.APPS_UPDATE");
-            context.getApplicationContext().registerReceiver(mReceiver, filter);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.bbsymphony.dailysalat.APPS_UPDATE");
+        //context.getApplicationContext().registerReceiver(mReceiver, filter);
 
-            Log.w(LOG, "[ON UPDATE] STEP 3 - DONE sending broadcast");
+        Log.w(LOG, "[ON UPDATE] STEP 3 - DONE sending broadcast");
 
-            Log.w(LOG, "[ON UPDATE] STEP 4 - Click on Background");
-            //Intent clickPrevButton = new Intent();
-            Intent clickBackground = new Intent(context, MuslimPrayersBroadcastReceiver.class);
-            // Button click managenent
-            clickBackground.setAction(SETTING_CLICK);
-            clickBackground.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            PendingIntent pendingBckIntent = PendingIntent.getBroadcast(context, 0, clickBackground, 0);
+        Log.w(LOG, "[ON UPDATE] STEP 4 - Click on Background");
+        //Intent clickPrevButton = new Intent();
+        Intent clickBackground = new Intent(context, MuslimPrayersBroadcastReceiver.class);
+        // Button click managenent
+        clickBackground.setAction(SETTING_CLICK);
+        clickBackground.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+        PendingIntent pendingBckIntent = PendingIntent.getBroadcast(context, 0, clickBackground, 0);
 
-            Intent clickDate = new Intent(context, MuslimPrayersBroadcastReceiver.class);
-            // Button click managenent
-            clickDate.setAction(SETTING_CLICK);
-            clickDate.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-            PendingIntent pendingDateIntent = PendingIntent.getBroadcast(context, 0, clickDate, 0);
+        Intent clickDate = new Intent(context, MuslimPrayersBroadcastReceiver.class);
+        // Button click managenent
+        clickDate.setAction(SETTING_CLICK);
+        clickDate.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+        PendingIntent pendingDateIntent = PendingIntent.getBroadcast(context, 0, clickDate, 0);
 
-            RemoteViews views = new RemoteViews(context.getPackageName(),
-                    R.layout.muslim_prayers);
+        Intent clickCity = new Intent(context, MuslimPrayersBroadcastReceiver.class);
+        // Button click managenent
+        clickDate.setAction(SETTING_CLICK);
+        clickDate.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+        PendingIntent pendingCityIntent = PendingIntent.getBroadcast(context, 0, clickCity, 0);
+
+        RemoteViews views = new RemoteViews(context.getPackageName(),
+                R.layout.muslim_prayers);
 
         views.setOnClickPendingIntent(R.id.image_background_id, pendingBckIntent);
         views.setOnClickPendingIntent(R.id.date_id, pendingDateIntent);
+        views.setOnClickPendingIntent(R.id.city_id, pendingCityIntent);
 
+        // register on Key listener
 
         Log.w(LOG, "[ON UPDATE] STEP 2 - sending broadcast");
         context.sendBroadcast(intent);
@@ -73,19 +80,21 @@ public class MuslimPrayers extends AppWidgetProvider {
 
         appWidgetManager.updateAppWidget(appWidgetIds, views);
 
-        }
+    }
 
 
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         // When the user deletes the widget, delete the preference associated with it.
         try {
-            context.getApplicationContext().unregisterReceiver(this.mReceiver);
+            //context.getApplicationContext().unregisterReceiver(this.mReceiver);
             final int N = appWidgetIds.length;
             //for (int i = 0; i < N; i++) {
             //MuslimPrayersConfigureActivity.deleteTitlePref(context, appWidgetIds[i]);
             //}
-        } catch (Exception e) { Log.d(LOG, e.toString());}
+        } catch (Exception e) {
+            Log.d(LOG, e.toString());
+        }
     }
 
     @Override
@@ -110,7 +119,4 @@ public class MuslimPrayers extends AppWidgetProvider {
         //appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
-
-
 }
-

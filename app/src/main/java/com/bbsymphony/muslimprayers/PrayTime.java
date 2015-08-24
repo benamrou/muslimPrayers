@@ -470,7 +470,7 @@ public class PrayTime {
         /*hours = (hours + 12) - 1;
         int hrs = (int) hours % 12;
         hrs += 1;*/
-        if (noSuffix == false) {
+        if (! noSuffix ) {
             if ((hours >= 0 && hours <= 9) && (minutes >= 0 && minutes <= 9)) {
                 result = "0" + hours + ":0" + Math.round(minutes) + " "
                         + suffix;
@@ -645,13 +645,7 @@ public class PrayTime {
     // Set time offsets
     public void tune(int[] offsetTimes) {
 
-        for (int i = 0; i < offsetTimes.length; i++) { // offsetTimes length
-            // should be 7 in order
-            // of Fajr, Sunrise,
-            // Dhuhr, Asr, Sunset,
-            // Maghrib, Isha
-            this.offsets[i] = offsetTimes[i];
-        }
+        System.arraycopy(offsetTimes, 0, this.offsets, 0, offsetTimes.length);
     }
 
     private double[] tuneTimes(double[] times) {

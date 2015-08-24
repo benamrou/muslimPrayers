@@ -65,16 +65,15 @@ public class NotificationService extends IntentService {
             prayer = getResources().getString(R.string.ishaPrayer_id);
         }
 
-        if (prefs.getBoolean("notifications_new_event_id", true)) {
+        if (prefs.getBoolean("notifications_new_event_id", true) && !prayer.equals("")) {
             NotificationMuslimPrayers notification = new NotificationMuslimPrayers();
 
             notificationID = notificationID + 1;
-            notification.notify(getApplicationContext(), prayer + " prayer notification",
-                "Salat " + prayer + " is in " + getResources().getString(R.string.x_minutes_notification) + " minutes",
+            NotificationMuslimPrayers.notify(getApplicationContext(), prayer + " prayer notification",
+                    "Salat " + prayer + " is in " + getResources().getString(R.string.x_minutes_notification) + " minutes",
                     R.drawable.ic_launcher,
                     0, notificationID);
         }
-
     }
 
     @Override

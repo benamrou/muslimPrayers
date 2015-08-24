@@ -5,7 +5,6 @@ package com.bbsymphony.muslimprayers;
  */
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
@@ -13,21 +12,17 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.location.Address;
-import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.preference.Preference;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,13 +31,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.bbsymphony.muslimprayers.alert.NotificationMuslimPrayers;
 import com.bbsymphony.muslimprayers.alert.NotificationService;
 import com.bbsymphony.muslimprayers.alert.SalatAlarmService;
 import com.bbsymphony.muslimprayers.setting.SettingsActivity;
 
-public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
-        implements LocationListener{
+public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver implements LocationListener {
 
     private static final String LOG    = "BroadcastReceiver";
 
@@ -87,27 +80,28 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
     private double timezone;
     private boolean locationON;
 
+    private Context context;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving an Intent broadcast.
         Log.w(LOG, "[ONRECEIVE] BroadcastReceiver");
+
+
+        // Stop Playing song
+        com.bbsymphony.muslimprayers.alert.PlaySound.stop();
 
         //RemoteViews remoteViews;
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                 R.layout.muslim_prayers);
 
         Log.w(LOG,"[ON RECEIVE] Action: " + intent.getAction());
-        this.prefs = context.getApplicationContext().getSharedPreferences(ConfigurationClass.SHARED_PREF, context.MODE_PRIVATE);
+        this.prefs = context.getApplicationContext().getSharedPreferences(ConfigurationClass.SHARED_PREF, Context.MODE_PRIVATE);
 
         if (MuslimPrayers.SETTING_CLICK.equals(intent.getAction())) {
             try {
                 Log.d(LOG, "[ON RECEIVE] Click-on Prev button ");
                 Log.d(LOG, "[SETTING]");
-
-                // Activating capabilities to read/write Settings
-                StrictMode.ThreadPolicy old = StrictMode.getThreadPolicy();
-                StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder(old)
-                        .permitDiskWrites().build());
 
                 Intent setting = new Intent(context, SettingsActivity.class);
                 setting.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -119,16 +113,13 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
                     Log.w(LOG,"[ON Receive error]" + e.toString());
                 }
             }
-        if (MuslimPrayers.PREFERENCE_UPDATE.equals(intent.getAction())) {
-            Log.d(LOG, "[ON RECEIVE] Preference update ");
-
-        }
 
         dateDisplayed = new Date();
-        remoteViews.setTextViewText(R.id.date_id,dateDisplayedFormat.format(dateDisplayed));
+        remoteViews.setTextViewText(R.id.date_id, dateDisplayedFormat.format(dateDisplayed));
         // Get Longitude Latitude and timezone
         this.setDefaultLocation(remoteViews, context, prefs.getBoolean("daylight_saving_id", true));
-        this.setMuslimPrayersTime(remoteViews, context, intent, lattitude, longitude, timezone);
+
+        ArrayList<String> prayersIntent = this.setMuslimPrayersTime(remoteViews, context, intent, lattitude, longitude, timezone);
 
         // Trigger widget layout update
         AppWidgetManager.getInstance(context).updateAppWidget(
@@ -139,9 +130,19 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
 
         // Update the widgets via the service
         Intent startServiceIntent = new Intent(context, MuslimPrayersService.class);
+
+        if (prayersIntent != null) {
+            startServiceIntent.putExtra(ConfigurationClass.EXTRA_FAJR, prayersIntent.get(0));
+            startServiceIntent.putExtra(ConfigurationClass.EXTRA_DUHR, prayersIntent.get(2));
+            startServiceIntent.putExtra(ConfigurationClass.EXTRA_ASR, prayersIntent.get(3));
+            startServiceIntent.putExtra(ConfigurationClass.EXTRA_MAGHRIB, prayersIntent.get(5));
+            startServiceIntent.putExtra(ConfigurationClass.EXTRA_ISHAA, prayersIntent.get(6));
+        }
+
         PendingIntent pendingIntentMuslimPrayer = PendingIntent.getService(context, REFRESH_WIDGET,
                 startServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         startServiceIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        // Every 5 minutes
         setRepetitiveService(context, pendingIntentMuslimPrayer, 50*1000);
 
         context.startService(startServiceIntent);
@@ -161,32 +162,15 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
         //locationManager.removeUpdates(this);
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
 
-    }
 
-    //@Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    //@Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    //@Override
-    public void onProviderDisabled(String provider) {
-
-    }
-
-    public void setMuslimPrayersTime (RemoteViews views, Context context, Intent intent,
+    public ArrayList<String> setMuslimPrayersTime (RemoteViews views, Context context, Intent intent,
                                       double lattitude, double longitude, double timezone){
         // Villeneuve d'Ascq
-        //double lattitude = 50.6329700;
-        //double longitude = 3.0585800;
-        //double timezone = 2;
+        //this.lattitude = 50.6329700;
+        //this.longitude = 3.0585800;
+        //this.timezone = 2;
+        //this.locationON=true;
 
         // Sioux Falls
         //this.lattitude = 43.55;
@@ -195,6 +179,7 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
 
         Log.d(LOG,"Longitude: " + this.longitude + " Lattitude: " + this.lattitude + " TimeZone: " + this.timezone);
 
+        ArrayList<String> prayerTimes = null;
         if (this.locationON) {
 
             this.prefs = context.getSharedPreferences(ConfigurationClass.SHARED_PREF, Context.MODE_PRIVATE);
@@ -235,22 +220,18 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
             Calendar cal = Calendar.getInstance();
             cal.setTime(dateDisplayed);
 
-            ArrayList<String> prayerTimes = prayers.getPrayerTimes(cal,
+            prayerTimes = prayers.getPrayerTimes(cal,
                     this.lattitude, this.longitude, this.timezone);
-            ArrayList<String> prayerNames = prayers.getTimeNames();
 
             // Update the display
             views.setTextViewText(R.id.fajr_time, prayerTimes.get(0));
             views.setTextViewText(R.id.duhr_time, prayerTimes.get(2));
             views.setTextViewText(R.id.asr_time, prayerTimes.get(3));
-            views.setTextViewText(R.id.maghrib_time, prayerTimes.get(4));
+            views.setTextViewText(R.id.maghrib_time, prayerTimes.get(5));
             views.setTextViewText(R.id.isha_time, prayerTimes.get(6));
             views.setTextViewText(R.id.sunrise_id, "Sunrise: " + prayerTimes.get(1));
-            views.setTextViewText(R.id.sunset_id, prayerTimes.get(5) + " : Sunset");
+            views.setTextViewText(R.id.sunset_id, prayerTimes.get(4) + " : Sunset");
 
-            for (int i=0; i < prayerTimes.size(); i++) {
-                Log.d(LOG, "End update screen - Salat " + i  + " - " + prayerTimes.get(i));
-            }
             // Update the AlarmManager for Salat
 
             try {
@@ -357,8 +338,8 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
                 intentAlarm.putExtra(ConfigurationClass.EXTRA_WUDU_SUNRISE, timeWudu.get(1));
                 intentAlarm.putExtra(ConfigurationClass.EXTRA_WUDU_DUHR, timeWudu.get(2));
                 intentAlarm.putExtra(ConfigurationClass.EXTRA_WUDU_ASR, timeWudu.get(3));
-                intentAlarm.putExtra(ConfigurationClass.EXTRA_WUDU_MAGHRIB, timeWudu.get(4));
-                intentAlarm.putExtra(ConfigurationClass.EXTRA_WUDU_SUNSET, timeWudu.get(5));
+                intentAlarm.putExtra(ConfigurationClass.EXTRA_WUDU_SUNSET, timeWudu.get(4));
+                intentAlarm.putExtra(ConfigurationClass.EXTRA_WUDU_MAGHRIB, timeWudu.get(5));
                 intentAlarm.putExtra(ConfigurationClass.EXTRA_WUDU_ISHAA, timeWudu.get(5));
             }
 
@@ -366,9 +347,9 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
              *                              Fajr Management
              * ************************************************************************
              */
-            Log.d(LOG,"Fajr Time:" + getTimeDelayed(prayers.getFajrTime(), Integer.parseInt(prefs.getString("fajr_adj_id","0")))
-                    + " vs. Now: " + now + " results:" + stringToDate(prayers.getFajrTime(), prefs.getString("fajr_adj_id","0")).compareTo(now));
-            if (stringToDate(prayers.getFajrTime(), prefs.getString("fajr_adj_id","0")).compareTo(now) > 0) {
+            Log.d(LOG,"Fajr Time:" + ConfigurationClass.getTimeDelayed(prayers.getFajrTime(), Integer.parseInt(prefs.getString("fajr_adj_id", "0")))
+                    + " vs. Now: " + now + " results:" + ConfigurationClass.stringToDate(prayers.getFajrTime(), prefs.getString("fajr_adj_id", "0")).compareTo(now));
+            if (ConfigurationClass.stringToDate(prayers.getAsrTime()).compareTo(now) > 0) {
                 if (isNotificationSalatON) {
                     Log.d(LOG, "Enabling alerts...");
                     intentAlarm.putExtra(ConfigurationClass.EXTRA_FAJR, prayers.getFajrTime());
@@ -383,11 +364,11 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
                 }
                 if (isNotificationON) {
                     intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_FAJR,
-                                                getTimeDelayed(prayers.getFajrTime(), ConfigurationClass.DELAY_NOTIFICATION));
+                                                ConfigurationClass.getTimeDelayed(prayers.getFajrTime(), ConfigurationClass.DELAY_NOTIFICATION));
                     PendingIntent pendingIntentFajrNotification = PendingIntent.getService(context, ALERT_NOTIFICATION_FAJR,
                             intentNotification, PendingIntent.FLAG_UPDATE_CURRENT);
-                    setNotification(context, pendingIntentFajrNotification, getTimeDelayed(prayers.getFajrTime(),
-                                                                ConfigurationClass.DELAY_NOTIFICATION));
+                    setNotification(context, pendingIntentFajrNotification, ConfigurationClass.getTimeDelayed(prayers.getFajrTime(),
+                            ConfigurationClass.DELAY_NOTIFICATION));
                 }
             }
 
@@ -396,8 +377,8 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
              * ************************************************************************
              */
             Log.d(LOG,"Duhr Time:" + timeSalat.get(2)
-                    + " vs. Now: " + now + " results:" + stringToDate(prayers.getDuhrTime(), prefs.getString("duhr_adj_id","0")).compareTo(now));
-            if (stringToDate(prayers.getDuhrTime()).compareTo(now) > 0) {
+                    + " vs. Now: " + now + " results:" + ConfigurationClass.stringToDate(prayers.getDuhrTime(), prefs.getString("duhr_adj_id", "0")).compareTo(now));
+            if (ConfigurationClass.stringToDate(prayers.getDuhrTime()).compareTo(now) > 0) {
                 if (isNotificationSalatON) {
                     intentAlarm.putExtra(ConfigurationClass.EXTRA_DUHR, prayers.getDuhrTime());
                     PendingIntent pendingIntentDuhr = PendingIntent.getService(context, ALERT_DUHR,
@@ -410,10 +391,10 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
                     setAlarmSalat(context, wpendingIntentDuhr, timeWudu.get(2));
                 }
                 if (isNotificationON) {
-                    intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_DUHR, getTimeDelayed(prayers.getDuhrTime(), ConfigurationClass.DELAY_NOTIFICATION));
+                    intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_DUHR, ConfigurationClass.getTimeDelayed(prayers.getDuhrTime(), ConfigurationClass.DELAY_NOTIFICATION));
                     PendingIntent pendingIntentDuhrNotification = PendingIntent.getService(context, ALERT_NOTIFICATION_DUHR,
                             intentNotification, PendingIntent.FLAG_UPDATE_CURRENT);
-                    setNotification(context, pendingIntentDuhrNotification, getTimeDelayed(prayers.getDuhrTime(), ConfigurationClass.DELAY_NOTIFICATION));
+                    setNotification(context, pendingIntentDuhrNotification, ConfigurationClass.getTimeDelayed(prayers.getDuhrTime(), ConfigurationClass.DELAY_NOTIFICATION));
                 }
             }
 
@@ -421,7 +402,7 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
              *                              Asr Management
              * ************************************************************************
              */
-            if (stringToDate(prayers.getAsrTime()).compareTo(now) > 0) {
+            if (ConfigurationClass.stringToDate(prayers.getAsrTime()).compareTo(now) > 0) {
                 if (isNotificationSalatON) {
                     intentAlarm.putExtra(ConfigurationClass.EXTRA_ASR, prayers.getAsrTime());
                     PendingIntent pendingIntentAsr = PendingIntent.getService(context, ALERT_ASR,
@@ -434,10 +415,10 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
                     setAlarmSalat(context, wpendingIntentAsr, timeWudu.get(3));
                 }
                 if (isNotificationON) {
-                    intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_ASR, getTimeDelayed(prayers.getAsrTime(), ConfigurationClass.DELAY_NOTIFICATION));
+                    intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_ASR, ConfigurationClass.getTimeDelayed(prayers.getAsrTime(), ConfigurationClass.DELAY_NOTIFICATION));
                     PendingIntent pendingIntentAsrNotification = PendingIntent.getService(context, ALERT_NOTIFICATION_ASR,
                             intentNotification, PendingIntent.FLAG_UPDATE_CURRENT);
-                    setNotification(context, pendingIntentAsrNotification, getTimeDelayed(prayers.getAsrTime(), ConfigurationClass.DELAY_NOTIFICATION));
+                    setNotification(context, pendingIntentAsrNotification, ConfigurationClass.getTimeDelayed(prayers.getAsrTime(), ConfigurationClass.DELAY_NOTIFICATION));
                 }
             }
 
@@ -445,7 +426,7 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
              *                              Maghrib Management
              * ************************************************************************
              */
-            if (stringToDate(prayers.getMaghribTime()).compareTo(now) > 0) {
+            if (ConfigurationClass.stringToDate(prayers.getMaghribTime()).compareTo(now) > 0) {
                 if (isNotificationSalatON) {
                     intentAlarm.putExtra(ConfigurationClass.EXTRA_MAGHRIB, prayers.getMaghribTime());
                     PendingIntent pendingIntentMaghrib = PendingIntent.getService(context, ALERT_MAGHRIB,
@@ -455,13 +436,13 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
                 if (isNotificationWuduON) {
                     PendingIntent wpendingIntentMaghrib = PendingIntent.getService(context, ALERT_WUDU_MAGHRIB,
                             intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
-                    setAlarmSalat(context, wpendingIntentMaghrib, timeWudu.get(4));
+                    setAlarmSalat(context, wpendingIntentMaghrib, timeWudu.get(5));
                 }
                 if (isNotificationON) {
-                    intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_MAGHRIB, getTimeDelayed(prayers.getMaghribTime(), ConfigurationClass.DELAY_NOTIFICATION));
+                    intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_MAGHRIB, ConfigurationClass.getTimeDelayed(prayers.getMaghribTime(), ConfigurationClass.DELAY_NOTIFICATION));
                     PendingIntent pendingIntentMaghribNotification = PendingIntent.getService(context, ALERT_NOTIFICATION_MAGHRIB,
                             intentNotification, PendingIntent.FLAG_UPDATE_CURRENT);
-                    setNotification(context, pendingIntentMaghribNotification, getTimeDelayed(prayers.getMaghribTime(), ConfigurationClass.DELAY_NOTIFICATION));
+                    setNotification(context, pendingIntentMaghribNotification, ConfigurationClass.getTimeDelayed(prayers.getMaghribTime(), ConfigurationClass.DELAY_NOTIFICATION));
                 }
             }
 
@@ -469,7 +450,7 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
              *                              Ishaa Management
              * ************************************************************************
              */
-            if (stringToDate(prayers.getIshaTime()).compareTo(now) > 0) {
+            if (ConfigurationClass.stringToDate(prayers.getIshaTime()).compareTo(now) > 0) {
                 if (isNotificationSalatON) {
                     intentAlarm.putExtra(ConfigurationClass.EXTRA_ISHAA, prayers.getIshaTime());
                     PendingIntent pendingIntentIsha = PendingIntent.getService(context, ALERT_ISHAA,
@@ -482,10 +463,10 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
                     setAlarmSalat(context, wpendingIntentIsha, timeWudu.get(6));
                 }
                 if (isNotificationON) {
-                    intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_ISHAA, getTimeDelayed(prayers.getIshaTime(), ConfigurationClass.DELAY_NOTIFICATION));
+                    intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_ISHAA, ConfigurationClass.getTimeDelayed(prayers.getIshaTime(), ConfigurationClass.DELAY_NOTIFICATION));
                     PendingIntent pendingIntentIshaaNotification = PendingIntent.getService(context, ALERT_NOTIFICATION_ISHAA,
                             intentNotification, PendingIntent.FLAG_UPDATE_CURRENT);
-                    setNotification(context, pendingIntentIshaaNotification, getTimeDelayed(prayers.getIshaTime(), ConfigurationClass.DELAY_NOTIFICATION));
+                    setNotification(context, pendingIntentIshaaNotification, ConfigurationClass.getTimeDelayed(prayers.getIshaTime(), ConfigurationClass.DELAY_NOTIFICATION));
                 }
             }
         }
@@ -498,6 +479,7 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
             views.setTextViewText(R.id.sunrise_id, "--:--");
             views.setTextViewText(R.id.sunset_id, "--:--");
         }
+        return prayerTimes;
     }
 
     public Date getDateDisplayed() {
@@ -506,9 +488,6 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
 
     public void setDateDisplayedViews(Date dateDisplayed) {
         this.dateDisplayed = dateDisplayed;
-    }
-
-    public void setDefaultLocation (Context contezt){
     }
 
     public void setDefaultLocation(RemoteViews remoteViews, Context context, boolean dayLightSaving) {
@@ -523,7 +502,7 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
                 this.lattitude = address.getLatitude();
                 this.timezone = (TimeZone.getDefault().getRawOffset() / 1000.0) / 3600;
 
-                this.prefs = context.getApplicationContext().getSharedPreferences(ConfigurationClass.SHARED_PREF, context.MODE_PRIVATE);
+                this.prefs = context.getApplicationContext().getSharedPreferences(ConfigurationClass.SHARED_PREF, Context.MODE_PRIVATE);
                 if (dayLightSaving) {
                     this.timezone = this.timezone + (TimeZone.getDefault().getDSTSavings()/1000)/3600;
                 }
@@ -562,41 +541,13 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
             }
         } catch (Exception e) {
             Log.d(LOG, "[Location] Not available - Exception " + e);
-            remoteViews.setTextViewText(R.id.city_id, "Not available");
+            //remoteViews.setTextViewText(R.id.city_id, "Not available");
         }
     }
 
-    private Calendar stringToCalendar (String time) {
-        Date date = null;   // given date
-        try {
-            date = df.parse(time);
-        } catch (ParseException e) {
-            Log.d(LOG, e.toString());
-        }
-
-        Calendar calendar = Calendar.getInstance(); // creates a new calendar instance
-        String[] tokens = time.split(":");
-        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(tokens[0])); // gets hour in 24h format
-        calendar.set(Calendar.MINUTE, Integer.parseInt(tokens[1]));        // gets month number, NOTE this is zero based!
-        calendar.set(Calendar.SECOND, 0);        // sets second number, NOTE this is zero based!
-        return calendar;
-    }
-
-    private Date stringToDate (String time) {
-        return stringToCalendar(time).getTime();
-    }
-
-
-    private Date stringToDate (String time, String adjustment) {
-        Calendar calendar = stringToCalendar(time);
-        try {
-            calendar.add(Calendar.MINUTE, Integer.parseInt(adjustment));
-        } catch (Exception e) { Log.d(LOG, e.toString());}
-        return calendar.getTime();
-    }
 
     public void setAlarmSalat(Context context, PendingIntent intent, String time) {
-        Calendar calendar = stringToCalendar(time);
+        Calendar calendar = ConfigurationClass.stringToCalendar(time);
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), intent);
@@ -605,7 +556,7 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
 
 
     public void setNotification (Context context, PendingIntent intent, String time) {
-        Calendar calendar = stringToCalendar(time);
+        Calendar calendar = ConfigurationClass.stringToCalendar(time);
 
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), intent);
@@ -623,36 +574,48 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
     }
 
 
-    public String getTimeDelayed (String prayerTime, int additional) {
-        Calendar calendar = stringToCalendar(prayerTime);
-        calendar.add(Calendar.MINUTE, additional);
-
-        return df.format(calendar.getTime());
+    public void stopPlaying (Context context) {
+        Log.d(LOG, "[CHECKCOUND] Playing Salat sound...");
+        MediaPlayer mpSalat = MediaPlayer.create(context, R.raw.adhan_makkah);
+        Log.d(LOG, "Click on Media Player Salat Test");
+        try {
+            if (mpSalat != null) {
+                Log.d(LOG, "Killing actaul media player...");
+                mpSalat.reset();
+                mpSalat.stop();
+                mpSalat.release();
+                mpSalat = null;
+            }
+        } catch (Exception e) {
+            Log.d(LOG, e.toString());
+        }
     }
 
     public Location getLocation(Context mContext) {
         Location location = null;
+
         try {
             LocationManager locationManager = (LocationManager) mContext
-                    .getSystemService(mContext.LOCATION_SERVICE);
+                    .getSystemService(Context.LOCATION_SERVICE);
 
             // getting GPS status
             boolean isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
             // getting network status
             boolean isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
+                Log.d(LOG, "GPS is OFF and Network is OFF");
+                return null;
             } else {
                 boolean canGetLocation = true;
                 if (isNetworkEnabled) {
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,
-                            MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
+                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                     Log.d("Network", "Network Enabled");
                     if (locationManager != null) {
                         location = locationManager
@@ -669,7 +632,7 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
                         locationManager.requestLocationUpdates(
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
-                                MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
+                                MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                         Log.d("GPS", "GPS Enabled");
                         if (locationManager != null) {
                             location = locationManager
@@ -700,9 +663,29 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver
     public void update(Context context, AppWidgetManager manager, int[] ids, Object data) {
 
         //data will contain some predetermined data, but it may be null
-        for (int widgetId : ids) {
+        //for (int widgetId : ids) {
 
-        }
+        //}
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }
 

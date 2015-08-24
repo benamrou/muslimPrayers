@@ -5,20 +5,6 @@
     <string name="custom_angles_title">Custom Angles Fajr/Isha</string>
     <string name="convention_id">convention_id</string>
 
-    <!-- *********************************************************************************** -->
-    <!-- PRAYERS NAME -->
-    <string name="fajrPrayer_id">Fajr</string>
-    <string name="duhrPrayer_id">Duhr</string>
-    <string name="asrPrayer_id">Asr</string>
-    <string name="maghribPrayer_id">Maghrib</string>
-    <string name="ishaPrayer_id">Ishaa</string>
-    <!-- *********************************************************************************** -->
-
-    <!-- *********************************************************************************** -->
-    <!-- NOTIFICATION -->
-    <!-- If notifications are enabled, the notification is kicked off XXX minutes before     -->
-    <string name="x_minutes_notification">10</string>
-    <!-- *********************************************************************************** -->
 
 
 

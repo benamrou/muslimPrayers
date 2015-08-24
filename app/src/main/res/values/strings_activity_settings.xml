@@ -1,4 +1,32 @@
 <resources>
+    <!-- *********************************************************************************** -->
+    <!-- PRAYERS NAME -->
+    <string name="fajrPrayer_id">Fajr</string>
+    <string name="sunrise_id">Fajr</string>
+    <string name="duhrPrayer_id">Duhr</string>
+    <string name="asrPrayer_id">Asr</string>
+    <string name="sunset_id">Fajr</string>
+    <string name="maghribPrayer_id">Maghrib</string>
+    <string name="ishaPrayer_id">Ishaa</string>
+
+    <string name="fajr_hint">"Fajr ~ When the sky begins to lighten (dawn)." </string>
+    <string name="duhr_hint">"Duhr ~ When the Sun begins to decline after reaching its highest point in the sky." </string>
+    <string name="asr_hint">"Asr ~ The time when the length of any object's shadow reaches a factor (usually 1 or 2) of the length of the object itself plus the length of that object's shadow at noon." </string>
+    <string name="maghrib_hint">"Maghrib ~ The time at which the Sun disappears below the horizon." </string>
+    <string name="ishaa_hint">"Ishaa ~ The time at which darkness falls and there is no scattered light in the sky." </string>
+
+
+
+    <!-- *********************************************************************************** -->
+
+    <!-- *********************************************************************************** -->
+    <!-- NOTIFICATION -->
+    <!-- If notifications are enabled, the notification is kicked off XXX minutes before     -->
+    <string name="x_minutes_notification">10</string>
+    <!-- *********************************************************************************** -->
+
+    <string name="city_lbl">City</string>
+
     <string name="title_activity_settings">Settings</string>
     <!-- Strings related to Settings -->
 
@@ -20,27 +48,8 @@
         <item>3</item>
     </string-array>
 
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
     <!-- Settings for Prayers Times -->
     <string name="pref_header_prayers_time">PRAYERS TIME</string>
-    <string name="pref_header_location_title">Location</string>
-    <string name="pref_header_longitude_title">Longitude</string>
-    <string name="pref_header_lattitude_title">Lattitude</string>
-    <string name="pref_header_country_title">Country</string>
     <string name="pref_header_location_city_country">Not available</string>
     <!-- Settings for Prayers Times - Convention Angle for Fajr & ISha-->
     <string name="pref_header_prayers_time_convention">Convention</string>
@@ -69,7 +78,8 @@
     <string name="pref_daylight_saving_title">Daylight Saving</string>
     <string name="pref_islamic_date_title">Display islamic date</string>
 
-    <!-- Refer to PrayTime class for static value-->
+    <!-- Refer to PrayTime class for static value -->
+    <!--            Adjustement                   -->
     <string name="pref_header_prayers_time_adjustment">ADJUSTMENT</string>
 
     <string name="pref_fajr_adjustment">Fajr</string>
@@ -96,7 +106,7 @@
         <item>"0"</item>
         <item>"1"</item>
     </string-array>
-    <string name="pref_header_prayers_time_higher_lattitude">Higher Lattitude Adjustment</string>
+    <string name="pref_header_prayers_time_higher_lattitude">Higher Latitude Adjustment</string>
     <string-array name="pref_list_higher_lattitude">
         <item>"None"</item>
         <item>"Middle of the night"</item>
@@ -111,6 +121,9 @@
         <item>"3"</item>
     </string-array>
 
+    <!--            End Adjustement                 -->
+
+    <!--            Custom Angles                   -->
     <string name="fajr_angle_title">Fajr angle</string>
     <string name="isha_angle_title">Isha angle</string>
 
@@ -247,30 +260,8 @@
         <item>"23.5"</item>
     </string-array>
 
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>"15 minutes"</item>
-        <item>"30 minutes"</item>
-        <item>"1 hour"</item>
-        <item>"3 hours"</item>
-        <item>"6 hours"</item>
-        <item>"Never"</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>"15"</item>
-        <item>"30"</item>
-        <item>"60"</item>
-        <item>"180"</item>
-        <item>"360"</item>
-        <item>"-1"</item>
-    </string-array>
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
-
-    <!-- Example settings for Notifications -->
+    <!--            End Custom Angles                -->
+    <!--  Notifications -->
     <string name="pref_header_notifications">NOTIFICATION</string>
 
     <string name="pref_title_new_event_notifications">Events notifications</string>
@@ -278,7 +269,42 @@
 
     <string name="pref_title_abuliton">Wudu</string>
     <string name="pref_title_salat">Salat</string>
+    <string name="pref_title_adhan">Adhan selection</string>
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="pref_title_test">Play Adhan</string>
     <string name="pref_title_test_wudu">Test Wudu</string>
+
+    <string-array name="pref_list_adhan">
+        <item>"Al Hossaini"</item>
+        <item>"Ahmed Saeed Al Omrany"</item>
+        <item>"Abdul Basit"</item>
+        <item>"Nasser Al Qatami"</item>
+        <item>"Rashid Al Afasy"</item>
+        <item>"Saad Al Ghamdi"</item>
+        <item>"Yusuf Islam"</item>
+        <item>"Adhan from Makkah"</item>
+        <item>"Adhan from Madina"</item>
+        <item>"Adhan from Al Aqsa"</item>
+    </string-array>
+
+    <string-array name="pref_list_adhan_value">
+        <item>"al_hossaini"</item>
+        <item>"ahmed_saeed_al_omrany"</item>
+        <item>"abdul_basit"</item>
+        <item>"nasser_al_qatami"</item>
+        <item>"rashid_al_afasy"</item>
+        <item>"saad_al_ghamdi"</item>
+        <item>"yusuf_islam"</item>
+        <item>"adhan_makkah"</item>
+        <item>"adhan_madina"</item>
+        <item>"adhan_alaqsa"</item>
+    </string-array>
+
+    <color name="red">#ff0000</color>
+    <color name="green">#00ff00</color>
+    <color name="blue">#0000ff</color>
+
+    <string name="disabled_salat">"#AC030503"</string>
+    <string name="active_fajr">"#FFFF7A13"</string>
+
 </resources>

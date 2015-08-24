@@ -19,6 +19,17 @@
         android:title="@string/pref_title_salat"
         android:defaultValue="true" />
 
+    <ListPreference
+        android:key="adhan_id"
+        android:title="@string/pref_title_adhan"
+        android:dependency="notifications_salat_id"
+        android:defaultValue="adhan_makkah"
+        android:enabled="true"
+        android:entries="@array/pref_list_adhan"
+        android:entryValues="@array/pref_list_adhan_value"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
     <!-- NOTE: This preference will be enabled only when the checkbox above is checked. -->
     <com.bbsymphony.muslimprayers.dialog.EditTextCustom
         android:key="notifications_abulition_id"

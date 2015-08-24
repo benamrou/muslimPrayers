@@ -29,6 +29,7 @@ import com.bbsymphony.muslimprayers.ConfigurationClass;
 import com.bbsymphony.muslimprayers.MuslimPrayers;
 import com.bbsymphony.muslimprayers.MuslimPrayersBroadcastReceiver;
 import com.bbsymphony.muslimprayers.R;
+import com.bbsymphony.muslimprayers.alert.PlaySound;
 
 import java.util.List;
 
@@ -82,30 +83,22 @@ public class SettingsActivity
         /* **************************************************************************************** */
 
         // Preference Test Adhan button management
-        Preference buttonAdhan = (Preference) getPreferenceManager().findPreference("notifications_test_id");
+        Preference buttonAdhan = getPreferenceManager().findPreference("notifications_test_id");
         if (buttonAdhan != null) {
             Log.d(LOG,"[ONCREATE] STEP 1 - Button setUp");
             buttonAdhan.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 private String LOG = "OnPreferenceClickListener";
                 private MediaPlayer mp;
+                SharedPreferences prefAdhan =  getApplication().getSharedPreferences(ConfigurationClass.SHARED_PREF, Context.MODE_PRIVATE);
+
                 @Override
                 public boolean onPreferenceClick(Preference prefs) {
                     //finish();
-                    Log.d(LOG, "Click on Media Player Salat Test");
-                    try {
-                        if (mp != null) {
-                            Log.d(LOG, "Killing actaul media player...");
-                            mp.stop();
-                            mp.release();
-                            mp = null;
-                        }
-                        else {
-                            Log.d(LOG, "Playing media player wudu_djouher072015...");
-                            mp = MediaPlayer.create(prefs.getContext(), R.raw.adhan_makkah);
-                            mp.start();
-                        }
-                    } catch (Exception e) {
-                        Log.d(LOG, e.toString());
+                    if (PlaySound.isPlaying()) {
+                        PlaySound.stop();
+                    } else {
+                        PlaySound.play(getApplicationContext(), getResources().getIdentifier(prefAdhan.getString("adhan_id", "R.raw.adhan_makkah.mp3"),
+                                "raw", getApplicationContext().getPackageName()));
                     }
                     return true;
                 }
@@ -113,7 +106,7 @@ public class SettingsActivity
         }
 
         // Preference Test Wudu button management
-        Preference buttonTestWudu = (Preference) getPreferenceManager().findPreference("notifications_test_wudu_id");
+        Preference buttonTestWudu = getPreferenceManager().findPreference("notifications_test_wudu_id");
         if (buttonTestWudu != null) {
             Log.d(LOG,"[ONCREATE] STEP 1 - Button setUp");
             buttonTestWudu.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -145,7 +138,7 @@ public class SettingsActivity
         }
 
         // Preference Recommendation button management
-        Preference recommendationBtn = (Preference) getPreferenceManager().findPreference("recommendation_id");
+        Preference recommendationBtn = getPreferenceManager().findPreference("recommendation_id");
         if (recommendationBtn != null) {
 
             Log.d(LOG, "[ONCREATE] STEP 1 - recommendationBtn setUp");
@@ -220,6 +213,7 @@ public class SettingsActivity
         bindPreferenceSummaryToValue(findPreference("maghreb_adj_id"));
         bindPreferenceSummaryToValue(findPreference("ishaa_adj_id"));
         bindPreferenceSummaryToValue(findPreference("notifications_abulition_id"));
+        bindPreferenceSummaryToValue(findPreference("adhan_id"));
     }
 
     /**
@@ -274,7 +268,7 @@ public class SettingsActivity
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
 
-            String LOG = "PreferenceChangeListener";
+            String LOG = "PrefChangeLst";
             Log.d(LOG, "[RECOMMENDATION] STP 0 - preference key:" + stringValue);
 
             if (preference.getKey().equals("customAngle_id")) {
@@ -282,7 +276,7 @@ public class SettingsActivity
                 Log.d(LOG, "Custom Angles click: " + value);
                 //Boolean booleanValue = new Boolean((Boolean) value);
 
-                SharedPreferences sp =  preference.getSharedPreferences(); //.getSharedPreferences(ConfigurationClass.SHARED_PREF, Context.MODE_PRIVATE);
+                //SharedPreferences sp =  preference.getSharedPreferences(); //.getSharedPreferences(ConfigurationClass.SHARED_PREF, Context.MODE_PRIVATE);
                 PreferenceManager pm = preference.getPreferenceManager();
                 ListPreference conventionList = (ListPreference) pm.findPreference("convention_id");
 
@@ -466,6 +460,7 @@ public class SettingsActivity
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("pref_title_abuliton"));
+            bindPreferenceSummaryToValue(findPreference("pref_title_adhan"));
         }
     }
 
@@ -478,13 +473,13 @@ public class SettingsActivity
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_data_sync);
+            //addPreferencesFromResource(R.xml.pref_data_sync);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+            //bindPreferenceSummaryToValue(findPreference("sync_frequency"));
         }
     }
 
