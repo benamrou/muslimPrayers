@@ -2,10 +2,10 @@
     <!-- *********************************************************************************** -->
     <!-- PRAYERS NAME -->
     <string name="fajrPrayer_id">Fajr</string>
-    <string name="sunrise_id">Fajr</string>
+    <string name="sunrise_id">Sunrise</string>
     <string name="duhrPrayer_id">Duhr</string>
     <string name="asrPrayer_id">Asr</string>
-    <string name="sunset_id">Fajr</string>
+    <string name="sunset_id">Sunset</string>
     <string name="maghribPrayer_id">Maghrib</string>
     <string name="ishaPrayer_id">Ishaa</string>
 

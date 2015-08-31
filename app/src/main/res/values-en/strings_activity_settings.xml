@@ -1,0 +1,311 @@
+<resources>
+    <!-- *********************************************************************************** -->
+    <!-- PRAYERS NAME -->
+    <string name="fajrPrayer_id">Fajr</string>
+    <string name="sunrise_id">Sunrise</string>
+    <string name="duhrPrayer_id">Duhr</string>
+    <string name="asrPrayer_id">Asr</string>
+    <string name="sunset_id">Sunset</string>
+    <string name="maghribPrayer_id">Maghrib</string>
+    <string name="ishaPrayer_id">Ishaa</string>
+
+
+    <string name="fajr_hint">"Fajr ~ When the sky begins to lighten (dawn)." </string>
+    <string name="duhr_hint">"Duhr ~ When the Sun begins to decline after reaching its highest point in the sky." </string>
+    <string name="asr_hint">"Asr ~ The time when the length of any object's shadow reaches a factor (usually 1 or 2) of the length of the object itself plus the length of that object's shadow at noon." </string>
+    <string name="maghrib_hint">"Maghrib ~ The time at which the Sun disappears below the horizon." </string>
+    <string name="ishaa_hint">"Ishaa ~ The time at which darkness falls and there is no scattered light in the sky." </string>
+
+
+
+    <!-- *********************************************************************************** -->
+
+    <!-- *********************************************************************************** -->
+    <!-- NOTIFICATION -->
+    <!-- If notifications are enabled, the notification is kicked off XXX minutes before     -->
+    <string name="x_minutes_notification">10</string>
+    <!-- *********************************************************************************** -->
+
+    <string name="city_lbl">City</string>
+
+    <string name="title_activity_settings">Settings</string>
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Recommendations</string>
+    <string name="pref_description_social_recommendations">Share suggestion/Bug Report/Need Help</string>
+    <string-array name="pref_list_recommendation_title">
+        <item>Share suggestion</item>
+        <item>Need help</item>
+        <item>Report a bug</item>
+        <item>Cancel</item>
+    </string-array>
+    <string-array name="pref_list_recommendation_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <!-- Settings for Prayers Times -->
+    <string name="pref_header_prayers_time">PRAYERS TIME</string>
+    <string name="pref_header_location_city_country">Not available</string>
+    <!-- Settings for Prayers Times - Convention Angle for Fajr & ISha-->
+    <string name="pref_header_prayers_time_convention">Convention</string>
+    <string name="pref_header_convention">Custom Angles</string>
+    <string-array name="pref_list_convention_title">
+        <item>"Egytian General Authority of Survey"</item>
+        <item>"North America (ISNA)"</item>
+        <item>"Muslim World League (MWL)"</item>
+        <item>"University Al-Qura, Makkah"</item>
+        <item>"University of Karachi"</item>
+        <item>"University of Tehran"</item>
+        <item>"Shia Ithna Ashari"</item>
+    </string-array>
+    <!-- Refer to PrayTime class for static value-->
+    <string-array name="pref_list_convention_value">
+        <item>"5"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>"1"</item>
+        <item>"6"</item>
+        <item>"0"</item>
+    </string-array>
+    <string name="pref_list_convention_value_default">7</string>
+
+    <string name="pref_daylight_saving_title">Daylight Saving</string>
+    <string name="pref_islamic_date_title">Display islamic date</string>
+
+    <!-- Refer to PrayTime class for static value -->
+    <!--            Adjustement                   -->
+    <string name="pref_header_prayers_time_adjustment">ADJUSTMENT</string>
+
+    <string name="pref_fajr_adjustment">Fajr</string>
+    <string name="pref_duhr_adjustment">Duhr</string>
+    <string name="pref_asr_adjustment">Asr</string>
+    <string name="pref_maghreb_adjustment">Maghrib</string>
+    <string name="pref_ishaa_adjustment">Ishaa</string>
+
+    <string-array name="pref_list_adjustment">
+        <item>"Fajr"</item>
+        <item>"Sunrise"</item>
+        <item>"Dhuhr"</item>
+        <item>"Asr"</item>
+        <item>"Maghrib"</item>
+        <item>"Ishaa"</item>
+    </string-array>
+    <string name="pref_header_prayers_time_juristic">Asr calculation - Juristic Method</string>
+    <string-array name="pref_list_asr_juristic">
+        <item>"Shafii (Default)"</item>
+        <item>"Hanafi"</item>
+    </string-array>
+    <!-- Refer to PrayTime class for static value-->
+    <string-array name="pref_list_asr_juristic_value">
+        <item>"0"</item>
+        <item>"1"</item>
+    </string-array>
+    <string name="pref_header_prayers_time_higher_lattitude">Higher Latitude Adjustment</string>
+    <string-array name="pref_list_higher_lattitude">
+        <item>"None"</item>
+        <item>"Middle of the night"</item>
+        <item>"1/7 of the night"</item>
+        <item>"Angle based  (Default)"</item>
+    </string-array>
+    <!-- Refer to PrayTime class for static value-->
+    <string-array name="pref_list_higher_lattitude_value">
+        <item>"0"</item>
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+    </string-array>
+
+    <!--            End Adjustement                 -->
+
+    <!--            Custom Angles                   -->
+    <string name="fajr_angle_title">Fajr angle</string>
+    <string name="isha_angle_title">Isha angle</string>
+
+    <string-array name="pref_list_fajr_spinner">
+        <item>"9º"</item>
+        <item>"9.5º"</item>
+        <item>"10º"</item>
+        <item>"10.5º"</item>
+        <item>"11º"</item>
+        <item>"11.5º"</item>
+        <item>"12º"</item>
+        <item>"12.5º"</item>
+        <item>"13º"</item>
+        <item>"13.5º"</item>
+        <item>"14º"</item>
+        <item>"14.5º"</item>
+        <item>"15º"</item>
+        <item>"15.5º"</item>
+        <item>"16º"</item>
+        <item>"16.5º"</item>
+        <item>"17º"</item>
+        <item>"17.5º"</item>
+        <item>"18º"</item>
+        <item>"18.5º"</item>
+        <item>"19º"</item>
+        <item>"19.5º"</item>
+        <item>"20º"</item>
+        <item>"20.5º"</item>
+        <item>"21º"</item>
+        <item>"21.5º"</item>
+        <item>"22º"</item>
+        <item>"22.5º"</item>
+        <item>"23º"</item>
+        <item>"23.5º"</item>
+    </string-array>
+
+    <string-array name="pref_list_fajr_spinner_value">
+        <item>"9"</item>
+        <item>"9.5"</item>
+        <item>"10"</item>
+        <item>"10.5"</item>
+        <item>"11"</item>
+        <item>"11.5"</item>
+        <item>"12"</item>
+        <item>"12.5"</item>
+        <item>"13"</item>
+        <item>"13.5"</item>
+        <item>"14"</item>
+        <item>"14.5"</item>
+        <item>"15"</item>
+        <item>"15.5"</item>
+        <item>"16"</item>
+        <item>"16.5"</item>
+        <item>"17"</item>
+        <item>"17.5"</item>
+        <item>"18"</item>
+        <item>"18.5"</item>
+        <item>"19"</item>
+        <item>"19.5"</item>
+        <item>"20"</item>
+        <item>"20.5"</item>
+        <item>"21"</item>
+        <item>"21.5"</item>
+        <item>"22"</item>
+        <item>"22.5"</item>
+        <item>"23"</item>
+        <item>"23.5"</item>
+    </string-array>
+
+
+    <string-array name="pref_list_isha_spinner">
+        <item>"9º"</item>
+        <item>"9.5º"</item>
+        <item>"10º"</item>
+        <item>"10.5º"</item>
+        <item>"11º"</item>
+        <item>"11.5º"</item>
+        <item>"12º"</item>
+        <item>"12.5º"</item>
+        <item>"13º"</item>
+        <item>"13.5º"</item>
+        <item>"14º"</item>
+        <item>"14.5º"</item>
+        <item>"15º"</item>
+        <item>"15.5º"</item>
+        <item>"16º"</item>
+        <item>"16.5º"</item>
+        <item>"17º"</item>
+        <item>"17.5º"</item>
+        <item>"18º"</item>
+        <item>"18.5º"</item>
+        <item>"19º"</item>
+        <item>"19.5º"</item>
+        <item>"20º"</item>
+        <item>"20.5º"</item>
+        <item>"21º"</item>
+        <item>"21.5º"</item>
+        <item>"22º"</item>
+        <item>"22.5º"</item>
+        <item>"23º"</item>
+        <item>"23.5º"</item>
+    </string-array>
+
+    <string-array name="pref_list_isha_spinner_value">
+        <item>"9"</item>
+        <item>"9.5"</item>
+        <item>"10"</item>
+        <item>"10.5"</item>
+        <item>"11"</item>
+        <item>"11.5"</item>
+        <item>"12"</item>
+        <item>"12.5"</item>
+        <item>"13"</item>
+        <item>"13.5"</item>
+        <item>"14"</item>
+        <item>"14.5"</item>
+        <item>"15"</item>
+        <item>"15.5"</item>
+        <item>"16"</item>
+        <item>"16.5"</item>
+        <item>"17"</item>
+        <item>"17.5"</item>
+        <item>"18"</item>
+        <item>"18.5"</item>
+        <item>"19"</item>
+        <item>"19.5"</item>
+        <item>"20"</item>
+        <item>"20.5"</item>
+        <item>"21"</item>
+        <item>"21.5"</item>
+        <item>"22"</item>
+        <item>"22.5"</item>
+        <item>"23"</item>
+        <item>"23.5"</item>
+    </string-array>
+
+    <!--            End Custom Angles                -->
+    <!--  Notifications -->
+    <string name="pref_header_notifications">NOTIFICATION</string>
+
+    <string name="pref_title_new_event_notifications">Events notifications</string>
+
+
+    <string name="pref_title_abuliton">Wudu</string>
+    <string name="pref_title_salat">Salat</string>
+    <string name="pref_title_adhan">Adhan selection</string>
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="pref_title_test">Play Adhan</string>
+    <string name="pref_title_test_wudu">Test Wudu</string>
+
+    <string-array name="pref_list_adhan">
+        <item>"Al Hossaini"</item>
+        <item>"Ahmed Saeed Al Omrany"</item>
+        <item>"Abdul Basit"</item>
+        <item>"Nasser Al Qatami"</item>
+        <item>"Rashid Al Afasy"</item>
+        <item>"Saad Al Ghamdi"</item>
+        <item>"Yusuf Islam"</item>
+        <item>"Adhan from Makkah"</item>
+        <item>"Adhan from Madina"</item>
+        <item>"Adhan from Al Aqsa"</item>
+    </string-array>
+
+    <string-array name="pref_list_adhan_value">
+        <item>"al_hossaini"</item>
+        <item>"ahmed_saeed_al_omrany"</item>
+        <item>"abdul_basit"</item>
+        <item>"nasser_al_qatami"</item>
+        <item>"rashid_al_afasy"</item>
+        <item>"saad_al_ghamdi"</item>
+        <item>"yusuf_islam"</item>
+        <item>"adhan_makkah"</item>
+        <item>"adhan_madina"</item>
+        <item>"adhan_alaqsa"</item>
+    </string-array>
+
+    <color name="red">#ff0000</color>
+    <color name="green">#00ff00</color>
+    <color name="blue">#0000ff</color>
+
+    <string name="disabled_salat">"#AC030503"</string>
+    <string name="active_fajr">"#FFFF7A13"</string>
+
+</resources>

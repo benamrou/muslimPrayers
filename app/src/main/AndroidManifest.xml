@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bbsymphony.muslimprayers" >
+    package="com.bbsymphony.muslimprayers"
+    android:versionCode="3"
+    android:versionName="3.001" >
 
     <!-- Location and Geo-Localization management -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

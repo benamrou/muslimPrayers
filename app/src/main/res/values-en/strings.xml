@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MuslimPrayers</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="custom_angles_title">Custom Angles Fajr/Isha</string>
+    <string name="convention_id">convention_id</string>
+
+
+
+
+</resources>

@@ -5,10 +5,12 @@ package com.bbsymphony.muslimprayers;
  */
 
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -31,6 +33,7 @@ import com.bbsymphony.muslimprayers.setting.KeyObserver;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -109,6 +112,27 @@ public class MuslimPrayersService
 
         int incomingAppWidgetId = intent.getIntExtra(
                 AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+
+
+        Date dateDisplayed = new Date();
+        RemoteViews remoteViews = new RemoteViews(getApplicationContext().getPackageName(),
+                R.layout.muslim_prayers);
+
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences(ConfigurationClass.SHARED_PREF, Context.MODE_PRIVATE);
+
+        remoteViews.setTextViewText(R.id.date_id, dateDisplayedFormat.format(dateDisplayed));
+        // Get Longitude Latitude and timezone
+        ArrayList<Double> detailAddress = ConfigurationClass.setDefaultLocation(remoteViews, getApplicationContext(), prefs.getBoolean("daylight_saving_id", true));
+
+        ArrayList<String> prayersIntent = ConfigurationClass.setMuslimPrayersTime(remoteViews, getApplicationContext(), intent,
+                detailAddress.get(1), detailAddress.get(0), detailAddress.get(2),
+                detailAddress.get(3)==0?false: true, dateDisplayed);
+
+        if(prayersIntent == null) {
+            return;
+        }
+
+
         if (incomingAppWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID)
         {
             updateOneAppWidget(appWidgetManager,
@@ -152,6 +176,7 @@ public class MuslimPrayersService
                                             appWidgetManager, int appWidgetId)
     {
         // To be implemented if needed
+
         appWidgetManager.updateAppWidget(new ComponentName(this, MuslimPrayers.class),
                 new RemoteViews(getApplicationContext().getPackageName(),R.layout.muslim_prayers));
     }
