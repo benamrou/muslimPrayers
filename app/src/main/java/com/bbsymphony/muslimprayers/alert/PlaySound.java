@@ -30,6 +30,7 @@ public final class PlaySound {
                  }
              });
              mp.prepare();
+             mp.setLooping(false);
              mpSet.add(mp);
              mp.start();
          } catch (IOException e) {

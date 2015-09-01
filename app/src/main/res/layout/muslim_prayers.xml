@@ -4,7 +4,7 @@
     android:padding="@dimen/widget_margin"
     android:gravity="center_horizontal">
         <TextView
-            android:layout_width="65dp"
+            android:layout_width="62dp"
             android:layout_height="22dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/column1_id"
@@ -13,7 +13,7 @@
             android:layout_alignParentTop="true" />
 
         <TextView
-            android:layout_width="65dp"
+            android:layout_width="62dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Column 2"
@@ -85,7 +85,7 @@
             android:textColor="#ffffffff" />
 
     <ImageView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="22dp"
         android:id="@+id/imageFajr"
         android:src="@mipmap/fajr"
@@ -99,7 +99,7 @@
         android:layout_below="@+id/date_id"/>
 
     <ImageView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="22dp"
         android:id="@+id/imageDuhr"
         android:src="@mipmap/duhr"
@@ -113,7 +113,7 @@
 
 
     <ImageView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="22dp"
         android:id="@+id/imageAsr"
         android:src="@mipmap/asr"
@@ -126,7 +126,7 @@
         android:visibility="visible" />
 
     <ImageView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="22dp"
         android:id="@+id/imageMaghrib"
         android:contentDescription="Maghrib image"
@@ -139,7 +139,7 @@
         android:visibility="visible" />
 
     <ImageView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="22dp"
         android:id="@+id/imageIsha"
         android:contentDescription="Ishaa image"
@@ -152,7 +152,7 @@
         android:visibility="visible" />
 
     <TextView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/fajrPrayer_id"
@@ -167,7 +167,7 @@
         android:visibility="visible" />
 
     <TextView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/duhrPrayer_id"
@@ -182,7 +182,7 @@
         android:visibility="visible" />
 
     <TextView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/asrPrayer_id"
@@ -198,7 +198,7 @@
         android:layout_alignStart="@+id/column3_id" />
 
     <TextView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/maghribPrayer_id"
@@ -215,7 +215,7 @@
         android:visibility="visible" />
 
     <TextView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/ishaPrayer_id"
@@ -232,7 +232,7 @@
         android:visibility="visible" />
 
     <TextView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="03:35"
@@ -246,7 +246,7 @@
         android:visibility="visible" />
 
     <TextView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="13:56"
@@ -262,7 +262,7 @@
         android:visibility="visible" />
 
     <TextView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="18:01"
@@ -278,7 +278,7 @@
         android:visibility="visible" />
 
     <TextView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="22:05"
@@ -294,7 +294,7 @@
         android:visibility="visible" />
 
     <TextView
-        android:layout_width="65dp"
+        android:layout_width="62dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="00:13"
@@ -347,7 +347,8 @@
         android:layout_below="@+id/isha_time"
         android:layout_toRightOf="@id/sunrise_id"
         android:layout_alignStart="@+id/column3_id"
-        android:layout_alignEnd="@+id/column5_id"/>
+        android:layout_alignRight="@+id/date_id"
+        android:layout_alignEnd="@+id/date_id" />
 
 
 </RelativeLayout>

@@ -69,7 +69,11 @@ public class SalatAlarmService extends IntentService {
     private boolean isFajrSalat(Intent intent) {
         String time = df.format(new Date());
         Bundle prayerTimes = intent.getExtras();
-        return prayerTimes.getString(ConfigurationClass.EXTRA_FAJR, "99:99").equals(time);
+        if (prayerTimes.getString(ConfigurationClass.EXTRA_FAJR,"99:99").equals(time)) {
+            intent.removeExtra(ConfigurationClass.EXTRA_FAJR);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -109,18 +113,28 @@ public class SalatAlarmService extends IntentService {
 
 
         if (prayerTimes.getString(ConfigurationClass.EXTRA_FAJR,"99:99").equals(time)) {
+            // intent.removeExtra(ConfigurationClass.EXTRA_FAJR);
+            // Fajr time is checked a second time before getting removed
             return true;
         }
         if (prayerTimes.getString(ConfigurationClass.EXTRA_DUHR,"99:99").equals(time)) {
+            intent.removeExtra(ConfigurationClass.EXTRA_DUHR);
             return true;
         }
         if (prayerTimes.getString(ConfigurationClass.EXTRA_ASR,"99:99").equals(time)) {
+            intent.removeExtra(ConfigurationClass.EXTRA_ASR);
             return true;
         }
+
         if (prayerTimes.getString(ConfigurationClass.EXTRA_MAGHRIB,"99:99").equals(time)) {
+            intent.removeExtra(ConfigurationClass.EXTRA_MAGHRIB);
             return true;
         }
-        return prayerTimes.getString(ConfigurationClass.EXTRA_ISHAA, "99:99").equals(time);
+        if(prayerTimes.getString(ConfigurationClass.EXTRA_ISHAA, "99:99").equals(time)) {
+            intent.removeExtra(ConfigurationClass.EXTRA_ISHAA);
+            return true;
+        }
+        return false;
     }
 
 
@@ -135,18 +149,26 @@ public class SalatAlarmService extends IntentService {
                 "Isha_wudu_time:" + prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_ISHAA)  + "\n" +
                 " time: " + time);
         if (prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_FAJR,"99:99").equals(time)) {
+            intent.removeExtra(ConfigurationClass.EXTRA_WUDU_FAJR);
             return true;
         }
         if (prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_DUHR,"99:99").equals(time)) {
+            intent.removeExtra(ConfigurationClass.EXTRA_WUDU_DUHR);
             return true;
         }
         if (prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_ASR,"99:99").equals(time)) {
+            intent.removeExtra(ConfigurationClass.EXTRA_WUDU_ASR);
             return true;
         }
         if (prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_MAGHRIB,"99:99").equals(time)) {
+            intent.removeExtra(ConfigurationClass.EXTRA_WUDU_MAGHRIB);
             return true;
         }
-        return prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_ISHAA, "99:99").equals(time);
+        if (prayerTimesWudu.getString(ConfigurationClass.EXTRA_WUDU_ISHAA,"99:99").equals(time)) {
+            intent.removeExtra(ConfigurationClass.EXTRA_WUDU_ISHAA);
+            return true;
+        }
+        return false;
     }
 
     @Override
