@@ -10,6 +10,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
@@ -46,7 +47,7 @@ public class MuslimPrayersService
     private Date dateDisplayed =new Date();
     private KeyObserver keyObs;
 
-    private static final String LOG    = "iprayService";
+    private static final String LOG    = "MuslimPrayersService";
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -64,6 +65,7 @@ public class MuslimPrayersService
         super.onStart(intent, startId);
 
         AppWidgetManager manager = AppWidgetManager.getInstance(this);
+
         updateAllAppWidgets(manager);
     }
 
@@ -72,6 +74,7 @@ public class MuslimPrayersService
         Log.d(LOG, "[ONSTARTCOMMAND] Service MuslimPrayers kicked off...");
         super.onStartCommand(intent, flags, startId);
         AppWidgetManager manager = AppWidgetManager.getInstance(this);
+
         updateAllAppWidgets(manager);
         return START_NOT_STICKY;
     }
@@ -94,6 +97,7 @@ public class MuslimPrayersService
     @Override
     public void onConfigurationChanged(Configuration newConfig)
     {
+        Log.d(LOG,"[ONCONFIGURATION_CHANGED]");
         AppWidgetManager manager = AppWidgetManager.getInstance(this);
         // Push update to home screen
         updateAllAppWidgets(manager);
@@ -155,6 +159,7 @@ public class MuslimPrayersService
     private void updateAllAppWidgets(AppWidgetManager
                                              appWidgetManager)
     {
+        Log.d(LOG, "[SERVICE UPDATING ALL WIDGET]");
         ComponentName appWidgetProvider = new ComponentName(this,
                 com.bbsymphony.muslimprayers.MuslimPrayers.class);
         int[] appWidgetIds =
@@ -185,6 +190,7 @@ public class MuslimPrayersService
     @Override
     public void onDestroy(){
         getApplicationContext().getContentResolver().unregisterContentObserver(keyObs);
+        super.onDestroy();
     }
 
 
@@ -255,5 +261,7 @@ public class MuslimPrayersService
         animation.setFillAfter(true);
         v.startAnimation(animation);
     }
+
+
 }
 

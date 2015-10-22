@@ -33,9 +33,57 @@ public class MuslimPrayers extends AppWidgetProvider {
         Log.w(LOG, "[ON UPDATE] STEP 0 - method called");
         Log.d(LOG, "[SETTING] STEP 1 - Set Security");
         //this.mReceiver = new MuslimPrayersBroadcastReceiver();
+
+        setLayoutIntent(context, appWidgetManager, appWidgetIds);
+
+
+    }
+
+
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        // When the user deletes the widget, delete the preference associated with it.
+        try {
+            //context.getApplicationContext().unregisterReceiver(this.mReceiver);
+            final int N = appWidgetIds.length;
+            super.onDeleted(context, appWidgetIds);
+            //for (int i = 0; i < N; i++) {
+            //MuslimPrayersConfigureActivity.deleteTitlePref(context, appWidgetIds[i]);
+            //}
+        } catch (Exception e) {
+            Log.d(LOG, e.toString());
+        }
+    }
+
+    @Override
+    public void onEnabled(Context context) {
+        // Enter relevant functionality for when the first widget is created
+        Log.d(LOG, "[ONENABLED]");
+        super.onEnabled(context);
+    }
+
+    @Override
+    public void onDisabled(Context context) {
+        // Enter relevant functionality for when the last widget is disabled
+        Log.d(LOG, "[ONDISABLED]");
+        super.onDisabled(context);
+    }
+
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                                int appWidgetId) {
+
+        //CharSequence widgetText = MuslimPrayersConfigureActivity.loadTitlePref(context, appWidgetId);
+        // Construct the RemoteViews object
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.muslim_prayers);
+        //views.setTextViewText(R.id.appwidget_text, widgetText);
+
+        // Instruct the widget manager to update the widget
+        appWidgetManager.updateAppWidget(appWidgetId, views);
+    }
+
+    public void setLayoutIntent (Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+
         Intent intent = new Intent(context, MuslimPrayersBroadcastReceiver.class);
-
-
         IntentFilter filter = new IntentFilter();
         filter.addAction("com.bbsymphony.dailysalat.APPS_UPDATE");
         //context.getApplicationContext().registerReceiver(mReceiver, filter);
@@ -81,42 +129,4 @@ public class MuslimPrayers extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetIds, views);
 
     }
-
-
-    @Override
-    public void onDeleted(Context context, int[] appWidgetIds) {
-        // When the user deletes the widget, delete the preference associated with it.
-        try {
-            //context.getApplicationContext().unregisterReceiver(this.mReceiver);
-            final int N = appWidgetIds.length;
-            //for (int i = 0; i < N; i++) {
-            //MuslimPrayersConfigureActivity.deleteTitlePref(context, appWidgetIds[i]);
-            //}
-        } catch (Exception e) {
-            Log.d(LOG, e.toString());
-        }
-    }
-
-    @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        // Enter relevant functionality for when the last widget is disabled
-    }
-
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
-
-        //CharSequence widgetText = MuslimPrayersConfigureActivity.loadTitlePref(context, appWidgetId);
-        // Construct the RemoteViews object
-        //RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.muslim_prayers);
-        //views.setTextViewText(R.id.appwidget_text, widgetText);
-
-        // Instruct the widget manager to update the widget
-        //appWidgetManager.updateAppWidget(appWidgetId, views);
-    }
-
 }

@@ -4,7 +4,6 @@ package com.bbsymphony.muslimprayers;
  * Created by Ahmed on 7/16/2015.
  */
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
@@ -12,27 +11,16 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
 
-import com.bbsymphony.muslimprayers.alert.NotificationService;
-import com.bbsymphony.muslimprayers.alert.SalatAlarmService;
 import com.bbsymphony.muslimprayers.setting.SettingsActivity;
 
 public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver {
@@ -45,23 +33,15 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver {
     private DateFormat df = new SimpleDateFormat("HH:mm");
     private DateFormat dateDisplayedFormat = new SimpleDateFormat("EEE, d MMM yyyy");
     private Date dateDisplayed = new Date ();
-    private PrayTime prayers = new PrayTime();
-    private String provider;
     private SharedPreferences prefs;
 
 
     // Location Management
     private LocationManager myLocation;
-    private Location address;
-    private double longitude;
-    private double lattitude;
-    private double timezone;
-    private boolean locationON;
-
-    private Context context;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         // TODO: This method is called when the BroadcastReceiver is receiving an Intent broadcast.
         Log.w(LOG, "[ONRECEIVE] BroadcastReceiver");
 
@@ -104,10 +84,11 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver {
 
 
         // Trigger widget layout update
-        AppWidgetManager.getInstance(context).updateAppWidget(
-                new ComponentName(context, MuslimPrayers.class), remoteViews);
+        //AppWidgetManager.getInstance(context).updateAppWidget(
+        //        new ComponentName(context, MuslimPrayers.class), remoteViews);
 
         ComponentName thisWidget = new ComponentName(context, MuslimPrayers.class);
+
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
 
         // Update the widgets via the service
@@ -121,23 +102,8 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver {
 
         context.startService(startServiceIntent);
 
-
         appWidgetManager.updateAppWidget(thisWidget, remoteViews);
-
     }
-
-    /* Request updates at startup */
-    protected void onResume() {
-        //locationManager.requestLocationUpdates(provider, 400, 1, this);
-    }
-
-    /* Remove the locationlistener updates when Activity is paused */
-    protected void onPause() {
-        //locationManager.removeUpdates(this);
-    }
-
-
-
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
@@ -146,12 +112,13 @@ public class MuslimPrayersBroadcastReceiver extends BroadcastReceiver {
 
     //This is where we do the actual updating
     public void update(Context context, AppWidgetManager manager, int[] ids, Object data) {
-
+        Log.d(LOG, "[UPDATE] Change on something updating widget");
         //data will contain some predetermined data, but it may be null
         //for (int widgetId : ids) {
-
+            onUpdate(context, manager, ids);
         //}
     }
+
 
 }
 

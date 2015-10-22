@@ -1,0 +1,354 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/widget_margin"
+    android:gravity="center_horizontal">
+        <TextView
+            android:layout_width="62dp"
+            android:layout_height="22dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/column1_id"
+            android:text="Column 1"
+            android:visibility="invisible"
+            android:layout_alignParentTop="true" />
+
+        <TextView
+            android:layout_width="62dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Column 2"
+            android:id="@+id/column2_id"
+            android:layout_alignBottom="@+id/column1_id"
+            android:layout_toRightOf="@+id/column1_id"
+            android:visibility="invisible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Column 3"
+            android:id="@+id/column3_id"
+            android:layout_alignBottom="@+id/column2_id"
+            android:layout_toRightOf="@+id/column2_id"
+            android:visibility="invisible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Column 4"
+            android:id="@+id/column4_id"
+            android:layout_toRightOf="@+id/column3_id"
+            android:layout_alignBottom="@id/column3_id"
+            android:visibility="invisible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Column 5"
+            android:id="@+id/column5_id"
+            android:layout_toRightOf="@+id/column4_id"
+            android:layout_alignBottom="@id/column4_id"
+            android:visibility="invisible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/city_lbl"
+            android:id="@+id/city_id"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:visibility="visible"
+            android:layout_below="@+id/column1_id"
+            android:clickable="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/column5_id"
+            android:layout_alignEnd="@+id/column5_id"
+            android:textColor="#FFFFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/date_id"
+            android:layout_below="@+id/city_id"
+            android:gravity="center_vertical|center_horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@id/column5_id"
+            android:layout_alignEnd="@+id/column5_id"
+            android:clickable="true"
+            android:textColor="#ffffffff" />
+
+    <ImageView
+        android:layout_width="62dp"
+        android:layout_height="22dp"
+        android:id="@+id/imageFajr"
+        android:src="@mipmap/fajr"
+        android:layout_weight="0.01"
+        android:contentDescription="Fajr image"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:scaleType="fitCenter"
+        android:background="#FCB458"
+        android:visibility="visible"
+        android:layout_below="@+id/date_id"/>
+
+    <ImageView
+        android:layout_width="62dp"
+        android:layout_height="22dp"
+        android:id="@+id/imageDuhr"
+        android:src="@mipmap/duhr"
+        android:contentDescription="Duhr image"
+        android:layout_alignEnd="@+id/column2_id"
+        android:background="#11A8AB"
+        android:visibility="visible"
+        android:layout_toRightOf="@+id/imageFajr"
+        android:layout_alignTop="@+id/imageFajr"
+        android:layout_alignBottom="@+id/imageFajr" />
+
+
+    <ImageView
+        android:layout_width="62dp"
+        android:layout_height="22dp"
+        android:id="@+id/imageAsr"
+        android:src="@mipmap/asr"
+        android:contentDescription="Asr image"
+        android:layout_alignEnd="@+id/column3_id"
+        android:layout_toRightOf="@+id/imageDuhr"
+        android:layout_alignTop="@+id/imageDuhr"
+        android:layout_alignBottom="@+id/imageDuhr"
+        android:background="#4FC4f6"
+        android:visibility="visible" />
+
+    <ImageView
+        android:layout_width="62dp"
+        android:layout_height="22dp"
+        android:id="@+id/imageMaghrib"
+        android:contentDescription="Maghrib image"
+        android:src="@mipmap/maghreb"
+        android:layout_alignEnd="@+id/column4_id"
+        android:layout_toRightOf="@+id/imageAsr"
+        android:layout_alignTop="@+id/imageAsr"
+        android:layout_alignBottom="@+id/imageAsr"
+        android:background="#E64C65"
+        android:visibility="visible" />
+
+    <ImageView
+        android:layout_width="62dp"
+        android:layout_height="22dp"
+        android:id="@+id/imageIsha"
+        android:contentDescription="Ishaa image"
+        android:layout_alignEnd="@+id/column5_id"
+        android:layout_toRightOf="@+id/imageMaghrib"
+        android:layout_alignTop="@+id/imageMaghrib"
+        android:layout_alignBottom="@+id/imageMaghrib"
+        android:src="@mipmap/isha"
+        android:background="#50597B"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/fajrPrayer_id"
+        android:id="@+id/fajr_id"
+        android:layout_below="@+id/imageFajr"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_alignEnd="@+id/imageFajr"
+        android:textAlignment="gravity"
+        android:background="#ffff7a13"
+        android:textColor="#ffffffff"
+        android:layout_alignStart="@+id/imageFajr"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/duhrPrayer_id"
+        android:id="@+id/duhr_id"
+        android:layout_alignEnd="@+id/column2_id"
+        android:layout_toRightOf="@+id/fajr_id"
+        android:layout_alignTop="@+id/fajr_id"
+        android:layout_alignBottom="@+id/fajr_id"
+        android:background="#008E91"
+        android:textColor="#ffffffff"
+        android:gravity="center_vertical|center_horizontal"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/asrPrayer_id"
+        android:id="@+id/asr_id"
+        android:layout_alignEnd="@+id/column3_id"
+        android:layout_toRightOf="@+id/duhr_id"
+        android:layout_alignTop="@+id/duhr_id"
+        android:layout_alignBottom="@+id/duhr_id"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="#35AADC"
+        android:textColor="#FFFFFF"
+        android:visibility="visible"
+        android:layout_alignStart="@+id/column3_id" />
+
+    <TextView
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/maghribPrayer_id"
+        android:id="@+id/maghrib_id"
+
+        android:layout_alignEnd="@+id/column4_id"
+        android:layout_toRightOf="@+id/asr_id"
+        android:layout_alignTop="@+id/asr_id"
+        android:layout_alignBottom="@+id/asr_id"
+
+        android:textColor="#FFFFFF"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="#CC324B"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/ishaPrayer_id"
+        android:id="@+id/isha_id"
+
+        android:layout_alignEnd="@+id/column5_id"
+        android:layout_toRightOf="@+id/maghrib_id"
+        android:layout_alignTop="@+id/maghrib_id"
+        android:layout_alignBottom="@+id/maghrib_id"
+
+        android:textColor="#FFFFFF"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="#363F61"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="03:35"
+        android:id="@+id/fajr_time"
+        android:gravity="center_vertical|center_horizontal"
+        android:textAlignment="gravity"
+        android:background="#ffff7a13"
+        android:textColor="#ffffffff"
+        android:layout_below="@+id/fajr_id"
+        android:layout_alignParentStart="true"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="13:56"
+        android:id="@+id/duhr_time"
+        android:background="#008E91"
+        android:textColor="#ffffffff"
+        android:gravity="center_vertical|center_horizontal"
+
+        android:layout_alignEnd="@+id/column2_id"
+        android:layout_toRightOf="@+id/fajr_time"
+        android:layout_alignTop="@+id/fajr_time"
+        android:layout_alignBottom="@+id/fajr_time"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="18:01"
+        android:id="@+id/asr_time"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="#35AADC"
+        android:textColor="#FFFFFF"
+
+        android:layout_alignEnd="@+id/column3_id"
+        android:layout_toRightOf="@+id/duhr_time"
+        android:layout_alignTop="@+id/duhr_time"
+        android:layout_alignBottom="@+id/duhr_time"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="22:05"
+        android:id="@+id/maghrib_time"
+        android:textColor="#FFFFFF"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="#CC324B"
+
+        android:layout_alignEnd="@+id/column4_id"
+        android:layout_toRightOf="@+id/asr_time"
+        android:layout_alignTop="@+id/asr_time"
+        android:layout_alignBottom="@+id/asr_time"
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="00:13"
+        android:id="@+id/isha_time"
+        android:textColor="#FFFFFF"
+        android:gravity="center_vertical|center_horizontal"
+        android:background="#363F61"
+
+        android:layout_alignEnd="@+id/column5_id"
+        android:layout_toRightOf="@+id/maghrib_time"
+        android:layout_alignTop="@+id/maghrib_time"
+        android:layout_alignBottom="@+id/maghrib_time"
+
+        android:visibility="visible" />
+
+    <TextView
+        android:layout_width="195dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/sunrise_id"
+        android:id="@+id/sunrise_id"
+        android:layout_below="@+id/fajr_time"
+        android:layout_alignStart="@+id/column1_id"
+        android:layout_alignEnd="@+id/column3_id"
+        android:background="@android:color/holo_green_light"
+        android:textColor="#ffffffff" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_background_id"
+        android:layout_below="@+id/column1_id"
+        android:layout_alignStart="@+id/column1_id"
+        android:layout_alignEnd="@id/column5_id"
+        android:layout_above="@+id/imageDuhr"
+        android:layout_alignParentEnd="false"
+        android:adjustViewBounds="true"
+        android:clickable="true" />
+
+    <TextView
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/sunset_id"
+        android:id="@+id/sunset_id"
+        android:gravity="right"
+        android:background="@android:color/holo_green_light"
+        android:textColor="#ffffffff"
+
+        android:layout_below="@+id/isha_time"
+        android:layout_toRightOf="@id/sunrise_id"
+        android:layout_alignStart="@+id/column3_id"
+        android:layout_alignRight="@+id/date_id"
+        android:layout_alignEnd="@+id/date_id" />
+
+
+</RelativeLayout>
