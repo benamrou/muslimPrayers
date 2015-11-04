@@ -168,7 +168,7 @@ public final class IntentManager {
 
             PendingIntent wpendingIntentMaghrib = PendingIntent.getService(context, ConfigurationClass.ALERT_MAGHRIB,
                     intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
-            setAlarmSalat(context, wpendingIntentMaghrib, timeSalat.get(4));
+            setAlarmSalat(context, wpendingIntentMaghrib, timeSalat.get(5));
 
             PendingIntent wpendingIntentIsha = PendingIntent.getService(context, ConfigurationClass.ALERT_ISHAA,
                     intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -193,7 +193,7 @@ public final class IntentManager {
             intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_FAJR, getTimeDelayed(timeSalat.get(0), delay));
             intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_DUHR, getTimeDelayed(timeSalat.get(2), delay));
             intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_ASR, getTimeDelayed(timeSalat.get(3), delay));
-            intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_MAGHRIB, getTimeDelayed(timeSalat.get(4), delay));
+            intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_MAGHRIB, getTimeDelayed(timeSalat.get(5), delay));
             intentNotification.putExtra(ConfigurationClass.EXTRA_NOTIFICATION_ISHAA, getTimeDelayed(timeSalat.get(6), delay));
 
             PendingIntent pendingIntentFajrNotification = PendingIntent.getService(context, ConfigurationClass.ALERT_NOTIFICATION_FAJR,
